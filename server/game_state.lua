@@ -1,6 +1,3 @@
-addEvent("onRoundEnding", true)
-addEvent("onRoundEnd", true)
-
 local ending_state_time = 5000;
 local round_number = 0
 

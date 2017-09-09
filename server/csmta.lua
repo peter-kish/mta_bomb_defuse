@@ -1,6 +1,3 @@
-addEvent("onTeamChosen", true)
-addEvent("onSpawn", true)
-
 local function team_chosen_handler(team)
     --outputChatBox("SERVER: team chosen", source)
     spawn_player_for_team(source, team)
