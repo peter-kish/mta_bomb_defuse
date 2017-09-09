@@ -87,12 +87,13 @@ end
 
 local function respawn_players(team)
     for i = 1, #team.members do
-        local spawn_point = get_spawnpoint(team.team_name)
+        local spawn_point = get_spawn_point(team.team_name)
         if isPedDead(team.members[i]) then
             spawn_player_for_team(team.members[i], team.team_name)
         else
-            -- TODO : don't do this to spawn
-            setElementPosition(team.members[i], spawn_point.x, spawn_point.y, spawn_point.z)
+            local weapon_status = get_player_weapon_status(team.members[i])
+            spawn_player_for_team(team.members[i], team.team_name)
+            set_player_weapon_status(team.members[i], weapon_status)
         end
     end
 end

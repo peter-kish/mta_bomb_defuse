@@ -33,5 +33,28 @@ local function give_knife()
     giveWeapon(source, 4, 1, false)
 end
 
+function get_player_weapon_status(player)
+    local slots = {}
+
+    for slot=0,10 do
+        local weapon_id = getPedWeapon(player, slot)
+        if weapon_id and weapon_id ~= get_weapon_info("Hand").ID and weapon_id ~= get_weapon_info("Knife").ID then
+            local weapon_slot = {}
+            weapon_slot.weapon_id = weapon_id
+            weapon_slot.ammo = getPedTotalAmmo(player, slot)
+            weapon_slot.clip_ammo = getPedAmmoInClip(player, slot)
+            table.insert(slots, weapon_slot)
+        end
+    end
+    
+    return slots
+end
+
+function set_player_weapon_status(player, weapon_status)
+    for i, slot in ipairs(weapon_status) do
+        giveWeapon(player, slot.weapon_id, slot.ammo)
+    end
+end
+
 addEventHandler("onSpawn", getRootElement(), give_knife)
 addEventHandler("onWeaponBuy", getRootElement(), weapon_buy_handler )
