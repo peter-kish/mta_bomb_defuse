@@ -101,6 +101,7 @@ end
 local function team_add_money(team, money)
     for i = 1, #team.members do
         setPlayerMoney(team.members[i], getPlayerMoney(team.members[i]) + money)
+        triggerClientEvent ("onMoneyChange", source, getPlayerMoney(source))
     end
 end
 
