@@ -11,7 +11,7 @@ local team_ct = {
     members = {}
 }
 
-local function get_team_table(team_name)
+function get_team_table(team_name)
     if team_name == "ct" then
         return team_ct
     elseif team_name == "t" then
@@ -41,7 +41,7 @@ local function find_table_element(t, v)
     return -1
 end
 
-local function get_team_table_for_player(player)
+function get_team_table_for_player(player)
     if find_table_element(team_ct.members, player) >= 0 then
         return team_ct
     end
@@ -75,7 +75,7 @@ local function quit_handler()
     remove_player_from_teams(source)
 end
 
-local function get_team_alive_count(team)
+function get_team_alive_count(team)
     local counter = 0
     for i = 1, #team.members do
         if not isPedDead(team.members[i]) then
@@ -105,22 +105,24 @@ local function team_add_money(team, money)
     end
 end
 
-local function player_wasted_handler()
-    local team_table = get_team_table_for_player(source)
-    if get_team_alive_count(team_table) == 0 then
-        local losing_team = team_table
-        local winning_team = get_opponent_team(losing_team)
-        outputChatBox("SERVER: Round is over! " .. winning_team.desciption .. " win!", source)
-        winning_team.score = winning_team.score + 1
-        
-        team_add_money(losing_team, 400)
-        team_add_money(winning_team, 800)
-        
-        respawn_players(team_ct)
-        respawn_players(team_t)
-    end
+local function round_ending_handler(winning_team_name)
+    outputChatBox("SERVER: Round is over! " .. get_team_table(winning_team_name).desciption .. " win!", source)
 end
 
-addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
+local function round_end_handler(winning_team_name)
+    local winning_team = get_team_table(winning_team_name)
+    local losing_team = get_opponent_team(winning_team)
+    
+    winning_team.score = winning_team.score + 1
+    
+    team_add_money(losing_team, 400)
+    team_add_money(winning_team, 800)
+    
+    respawn_players(team_ct)
+    respawn_players(team_t)
+end
+
+addEventHandler("onRoundEnd", getRootElement(), round_end_handler)
+addEventHandler("onRoundEnding", getRootElement(), round_ending_handler)
 addEventHandler("onPlayerQuit", getRootElement(), quit_handler)
 addEventHandler("onTeamChosen", getRootElement(), team_chosen_handler )

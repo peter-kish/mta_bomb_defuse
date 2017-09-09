@@ -6,6 +6,7 @@
 	<script src="server/spawnpoints.lua" type="server" />
 	<script src="server/weapons.lua" type="server" />
 	<script src="server/damage.lua" type="server" />
+    <script src="server/game_state.lua" type="server" />
 	<script src="server/teams.lua" type="server" />
     
     <!-- client scripts -->
