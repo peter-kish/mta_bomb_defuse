@@ -52,6 +52,17 @@ function get_team_table_for_player(player)
     return nil
 end
 
+function get_team_name_for_player(player)
+    if find_table_element(team_ct.members, player) >= 0 then
+        return team_ct.team_name
+    end
+    if find_table_element(team_t.members, player) >= 0 then
+        return team_t.team_name
+    end
+    
+    return nil
+end
+
 local function get_team_size(team)
     return #team.members
 end

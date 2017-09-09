@@ -56,3 +56,16 @@ function spawn_player_for_team(player, team_name)
     set_player_model(player, team_name)
     triggerEvent("onSpawn", player)
 end
+
+function is_player_in_buy_zone(player)
+    team_name = get_team_name_for_player(player)
+    player_x, player_y, player_z = getElementPosition(player)
+    
+    if team_name == "ct" then
+        return isInsideRadarArea(radar_area_ct, player_x, player_y)
+    elseif team_name == "t" then
+        return isInsideRadarArea(radar_area_t, player_x, player_y)
+    end
+    
+    return false
+end

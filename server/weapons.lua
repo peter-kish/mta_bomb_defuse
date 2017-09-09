@@ -12,6 +12,10 @@ end
 
 local function weapon_buy_handler(weapon_name)
     --outputChatBox("SERVER: weaponBuyHandler", source)
+    if is_player_in_buy_zone(source) == false then
+        outputChatBox("SERVER: Can't buy outside the buy zone!", source)
+        return
+    end
     
     local weapon = get_weapon_info(weapon_name)
     if weapon then
