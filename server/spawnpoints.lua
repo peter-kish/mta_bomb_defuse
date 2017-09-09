@@ -25,7 +25,7 @@ local function get_point_from_area(radar_area)
     return position
 end
 
-local function get_spawn_point(team_name)
+function get_spawn_point(team_name)
     if team_name == "ct" then
         return get_point_from_area(spawn_area_ct)
     elseif team_name == "t" then
