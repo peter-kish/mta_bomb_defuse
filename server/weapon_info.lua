@@ -14,6 +14,7 @@ local weapons = {
     {["name"] = "Colt 45",         ["ID"] = 22, ["ammo_per_mag"] = 17, ["cost"] = 50,  ["slot"] = "secondary_slot"},
     {["name"] = "Deagle",          ["ID"] = 24, ["ammo_per_mag"] = 7,  ["cost"] = 75,  ["slot"] = "secondary_slot"},
     {["name"] = "Rocket Launcher", ["ID"] = 35, ["ammo_per_mag"] = 1,  ["cost"] = 200, ["slot"] = "special_slot"},
+    {["name"] = "Granade",         ["ID"] = 16, ["ammo_per_mag"] = 1,  ["cost"] = 100, ["slot"] = "special_slot"},
 }
 
 function get_weapon_info(weapon_name)
