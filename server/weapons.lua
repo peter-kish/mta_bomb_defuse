@@ -1,5 +1,3 @@
-addEvent("onWeaponBuy", true);
-
 local function equip_weapon(weapon)
     local slot_weapon_name = getElementData(source, weapon.slot)
     if slot_weapon_name and slot_weapon_name ~= weapon.name then
