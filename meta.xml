@@ -1,6 +1,10 @@
 <meta>
 	<info author="kish" name="csmta"  version="0.1" type="script"/>
     
+    <!-- shared scripts -->
+    <script src="server/weapon_info.lua" type="shared" />
+    <script src="server/team_names.lua" type="shared" />
+    
     <!-- server scripts -->
 	<script src="server/server_events.lua" type="server" />
 	<script src="server/csmta.lua" type="server" />
@@ -12,7 +16,4 @@
     
     <!-- client scripts -->
 	<script src="client/gui.lua" type="client" />
-    
-    <!-- shared scripts -->
-    <script src="server/weapon_info.lua" type="shared" />
 </meta>

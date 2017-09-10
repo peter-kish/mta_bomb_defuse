@@ -26,9 +26,9 @@ local function get_point_from_area(radar_area)
 end
 
 function get_spawn_point(team_name)
-    if team_name == "ct" then
+    if team_name == team_ct_name then
         return get_point_from_area(spawn_area_ct)
-    elseif team_name == "t" then
+    elseif team_name == team_t_name then
         return get_point_from_area(spawn_area_t)
     else
         error("Bad team! (" .. team_name .. ")")
@@ -36,9 +36,9 @@ function get_spawn_point(team_name)
 end
 
 local function set_player_model(player, team_name)
-    if team_name == "ct" then
+    if team_name == team_ct_name then
         setElementModel(player, 285)
-    elseif team_name == "t" then
+    elseif team_name == team_t_name then
         setElementModel(player, 312)
     else
         error("Bad team! (" .. team_name .. ")")
@@ -47,8 +47,7 @@ end
 
 function spawn_player_for_team(player, team_name)
     local spawn_point = get_spawn_point(team_name)
-    local team_table = get_team_table(team_name)
-    setPlayerTeam(player, team_table.mta_team)
+    setPlayerTeam(player, getTeamFromName(team_name))
 	spawnPlayer(player, spawn_point.x, spawn_point.y, spawn_point.z)
     
 	fadeCamera(player, true)
@@ -60,12 +59,12 @@ function spawn_player_for_team(player, team_name)
 end
 
 function is_player_in_buy_zone(player)
-    team_name = get_team_name_for_player(player)
+    team_name = getTeamName(getPlayerTeam(player))
     player_x, player_y, player_z = getElementPosition(player)
     
-    if team_name == "ct" then
+    if team_name == team_ct_name then
         return isInsideRadarArea(radar_area_ct, player_x, player_y)
-    elseif team_name == "t" then
+    elseif team_name == team_t_name then
         return isInsideRadarArea(radar_area_t, player_x, player_y)
     end
     

@@ -41,13 +41,13 @@ end
 
 local function choose_team_ct()
     --outputChatBox("CT chosen", client)
-    triggerServerEvent("onTeamChosen", localPlayer, "ct")
+    triggerServerEvent("onTeamChosen", localPlayer, team_ct_name)
     close_dialog(gui_wdw_team)
 end
 
 local function choose_team_t()
     --outputChatBox("T chosen", client)
-    triggerServerEvent("onTeamChosen", localPlayer, "t")
+    triggerServerEvent("onTeamChosen", localPlayer, team_t_name)
     close_dialog(gui_wdw_team)
 end
 
@@ -72,8 +72,8 @@ end
 local function create_choose_team_dialog()
     gui_wdw_team = guiCreateWindow(0.25, 0.25, 0.5, 0.5, "Choose a team", true)
     guiWindowSetSizable(gui_wdw_team, false)
-    local gui_btn_ct = guiCreateButton(0.1, 0.1, 0.3, 0.8, "Counter-Terrorists", true, gui_wdw_team)
-    local gui_btn_t = guiCreateButton(0.6, 0.1, 0.3, 0.8, "Terrorists", true, gui_wdw_team)
+    local gui_btn_ct = guiCreateButton(0.1, 0.1, 0.3, 0.8, team_ct_name, true, gui_wdw_team)
+    local gui_btn_t = guiCreateButton(0.6, 0.1, 0.3, 0.8, team_t_name, true, gui_wdw_team)
     
     addEventHandler("onClientGUIClick", gui_btn_ct, choose_team_ct, false)
     addEventHandler("onClientGUIClick", gui_btn_t, choose_team_t, false)
