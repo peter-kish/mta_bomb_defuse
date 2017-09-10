@@ -1,6 +1,8 @@
 <meta>
 	<info author="kish" name="csmta"  version="0.1" type="script"/>
     
+    <!-- Additional recommended resources: scores, scoreboard, killmessages -->
+    
     <!-- shared scripts -->
     <script src="server/weapon_info.lua" type="shared" />
     <script src="server/team_names.lua" type="shared" />
