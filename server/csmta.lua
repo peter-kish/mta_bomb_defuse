@@ -1,8 +1,3 @@
-local function team_chosen_handler(team)
-    --outputChatBox("SERVER: team chosen", source)
-    spawn_player_for_team(source, team)
-end
-
 local function join_handler()
     triggerClientEvent (source, "onAskTeam", source)
     setPlayerMoney(source, 800, true)
@@ -13,4 +8,3 @@ local function join_handler()
 end
 
 addEventHandler("onPlayerJoin", getRootElement(), join_handler)
-addEventHandler("onTeamChosen", getRootElement(), team_chosen_handler )

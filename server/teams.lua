@@ -2,13 +2,22 @@ local team_t = {
     team_name = "t",
     desciption = "Terrorists",
     score = 0,
-    members = {}
+    members = {},
+    mta_team = createTeam("Terrorists", 255, 119, 119)
 }
 local team_ct = {
     team_name = "ct",
     desciption = "Counter-Terrorists",
     score = 0,
-    members = {}
+    members = {},
+    mta_team = createTeam("Counter-Terrorists", 125, 135, 255)
+}
+local team_spec = {
+    team_name = "spec",
+    desciption = "Spectators",
+    score = 0,
+    members = {},
+    mta_team = createTeam("Spectators", 255, 255, 255)
 }
 
 function get_team_table(team_name)
@@ -16,6 +25,8 @@ function get_team_table(team_name)
         return team_ct
     elseif team_name == "t" then
         return team_t
+    elseif team_name == "spec" then
+        return team_spec
     else
         error("Bad team: " .. team_name)
     end
@@ -48,6 +59,9 @@ function get_team_table_for_player(player)
     if find_table_element(team_t.members, player) >= 0 then
         return team_t
     end
+    if find_table_element(team_spec.members, player) >= 0 then
+        return team_spec
+    end
     
     return nil
 end
@@ -58,6 +72,9 @@ function get_team_name_for_player(player)
     end
     if find_table_element(team_t.members, player) >= 0 then
         return team_t.team_name
+    end
+    if find_table_element(team_spec.members, player) >= 0 then
+        return team_spec.team_name
     end
     
     return nil
@@ -80,6 +97,7 @@ local function team_chosen_handler(team_name)
     
     table.insert(team_table.members, source)
     outputChatBox("SERVER: Player " .. getPlayerName(source) .. " joined " .. team_table.desciption, source)
+    spawn_player_for_team(source, team_name)
 end
 
 local function quit_handler()

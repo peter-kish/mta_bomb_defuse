@@ -47,6 +47,8 @@ end
 
 function spawn_player_for_team(player, team_name)
     local spawn_point = get_spawn_point(team_name)
+    local team_table = get_team_table(team_name)
+    setPlayerTeam(player, team_table.mta_team)
 	spawnPlayer(player, spawn_point.x, spawn_point.y, spawn_point.z)
     
 	fadeCamera(player, true)
