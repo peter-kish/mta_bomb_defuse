@@ -1,6 +1,5 @@
 team_t = createTeam(team_t_name, 255, 119, 119)
 team_ct = createTeam(team_ct_name, 125, 135, 255)
-team_spec = createTeam(team_spec_name, 255, 255, 255)
 
 local function get_opponent_team(team)
     if team == team_t then
