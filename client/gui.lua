@@ -59,9 +59,35 @@ local function buy_close()
     close_dialog(gui_wdw_buy)
 end
 
+local function refresh_weapon_buttons(money)
+    local player_team = getPlayerTeam(localPlayer)
+    local player_team_name = ""
+    if player_team then
+        player_team_name = getTeamName(player_team)
+    end
+    for i, button in ipairs(gui_weapon_buttons) do
+        local weapon = get_weapon_info(guiGetText(button))
+        if weapon and weapon.cost > money then
+            guiSetEnabled(button, false)
+        else
+            guiSetEnabled(button, true)
+        end
+        
+        if player_team then
+            if (weapon.team ~= "all") and (weapon.team ~= player_team_name) then
+                guiSetEnabled(button, false)
+            end
+        end
+    end
+end
+
 local function show_buy_dialog()
     --outputChatBox("show_buy_dialog", client)
-    toggle_dialog(gui_wdw_buy)
+    local player_team = getPlayerTeam(localPlayer)
+    if player_team then
+        toggle_dialog(gui_wdw_buy)
+        refresh_weapon_buttons(getPlayerMoney(localPlayer))
+    end
 end
 
 local function show_team_dialog()
@@ -138,18 +164,6 @@ local function started_resource(startedRes )
     --outputChatBox("startedRes", client)
     bindKey("F3", "down", show_buy_dialog)
     init_gui()
-end
-
-local function refresh_weapon_buttons(money)
-    --outputChatBox("refresh_weapon_buttons", client)
-    for i, button in ipairs(gui_weapon_buttons) do
-        local weapon = get_weapon_info(guiGetText(button))
-        if weapon and weapon.cost > money then
-            guiSetEnabled(button, false)
-        else
-            guiSetEnabled(button, true)
-        end
-    end
 end
 
 addEventHandler("onClientResourceStart", getResourceRootElement(), started_resource)	

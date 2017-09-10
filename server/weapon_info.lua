@@ -7,14 +7,14 @@ local weapon_slots = {
 }
 
 local weapons = {
-    {["name"] = "Hand",            ["ID"] = 0,  ["ammo_per_mag"] = 1,  ["cost"] = 1,   ["slot"] = "hand_slot"},
-    {["name"] = "Knife",           ["ID"] = 4,  ["ammo_per_mag"] = 1,  ["cost"] = 1,   ["slot"] = "melee_slot"},
-    {["name"] = "AK-47",           ["ID"] = 30, ["ammo_per_mag"] = 30, ["cost"] = 100, ["slot"] = "primary_slot"},
-    {["name"] = "M4",              ["ID"] = 31, ["ammo_per_mag"] = 30, ["cost"] = 100, ["slot"] = "primary_slot"},
-    {["name"] = "Colt 45",         ["ID"] = 22, ["ammo_per_mag"] = 17, ["cost"] = 50,  ["slot"] = "secondary_slot"},
-    {["name"] = "Deagle",          ["ID"] = 24, ["ammo_per_mag"] = 7,  ["cost"] = 75,  ["slot"] = "secondary_slot"},
-    {["name"] = "Rocket Launcher", ["ID"] = 35, ["ammo_per_mag"] = 1,  ["cost"] = 200, ["slot"] = "special_slot"},
-    {["name"] = "Granade",         ["ID"] = 16, ["ammo_per_mag"] = 1,  ["cost"] = 100, ["slot"] = "special_slot"},
+    {["name"] = "Hand",            ["ID"] = 0,  ["ammo_per_mag"] = 1,  ["cost"] = 1,   ["slot"] = "hand_slot",      ["team"] = "all"},
+    {["name"] = "Knife",           ["ID"] = 4,  ["ammo_per_mag"] = 1,  ["cost"] = 1,   ["slot"] = "melee_slot",     ["team"] = "all"},
+    {["name"] = "AK-47",           ["ID"] = 30, ["ammo_per_mag"] = 30, ["cost"] = 100, ["slot"] = "primary_slot",   ["team"] = team_t_name},
+    {["name"] = "M4",              ["ID"] = 31, ["ammo_per_mag"] = 30, ["cost"] = 100, ["slot"] = "primary_slot",   ["team"] = team_ct_name},
+    {["name"] = "Colt 45",         ["ID"] = 22, ["ammo_per_mag"] = 17, ["cost"] = 50,  ["slot"] = "secondary_slot", ["team"] = "all"},
+    {["name"] = "Deagle",          ["ID"] = 24, ["ammo_per_mag"] = 7,  ["cost"] = 75,  ["slot"] = "secondary_slot", ["team"] = "all"},
+    {["name"] = "Rocket Launcher", ["ID"] = 35, ["ammo_per_mag"] = 1,  ["cost"] = 200, ["slot"] = "special_slot",   ["team"] = "all"},
+    {["name"] = "Granade",         ["ID"] = 16, ["ammo_per_mag"] = 1,  ["cost"] = 100, ["slot"] = "special_slot",   ["team"] = "all"},
 }
 
 function get_weapon_info(weapon_name)

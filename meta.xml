@@ -4,8 +4,8 @@
     <!-- Additional recommended resources: scores, scoreboard, killmessages -->
     
     <!-- shared scripts -->
-    <script src="server/weapon_info.lua" type="shared" />
     <script src="server/team_names.lua" type="shared" />
+    <script src="server/weapon_info.lua" type="shared" />
     
     <!-- server scripts -->
 	<script src="server/server_events.lua" type="server" />
