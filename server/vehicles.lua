@@ -27,7 +27,6 @@ end
 
 local function round_end_handler(winning_team_name)
     -- Clean up the vehicles
-    outputChatBox("SERVER: Cleaning up the vehicles...", source)
     local vehicles = getElementsByType("vehicle")
     for i,vehicle in ipairs(vehicles) do
         destroyElement(vehicle)
