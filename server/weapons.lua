@@ -17,6 +17,11 @@ local function weapon_buy_handler(weapon_name)
         return
     end
     
+    if isPedDead(source) then
+        outputChatBox("SERVER: Can't buy before respawn!", source)
+        return
+    end
+    
     local weapon = get_weapon_info(weapon_name)
     if weapon then
         --outputChatBox("SERVER: weaponBuyHandler: Buying " .. weapon.name, source)

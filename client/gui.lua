@@ -84,7 +84,7 @@ end
 local function show_buy_dialog()
     --outputChatBox("show_buy_dialog", client)
     local player_team = getPlayerTeam(localPlayer)
-    if player_team then
+    if (player_team) and (not isPedDead(localPlayer)) then
         toggle_dialog(gui_wdw_buy)
         refresh_weapon_buttons(getPlayerMoney(localPlayer))
     end
