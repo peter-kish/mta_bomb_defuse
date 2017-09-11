@@ -12,8 +12,15 @@ local function get_opponent_team(team)
 end
 
 local function team_chosen_handler(team_name)
+    local n_t = countPlayersInTeam(getTeamFromName(team_t_name))
+    local n_ct = countPlayersInTeam(getTeamFromName(team_ct_name))
+    
     outputChatBox("SERVER: Player " .. getPlayerName(source) .. " joined " .. team_name, source)
     spawn_player_for_team(source, team_name)
+    
+    if n_t == 0 and n_ct == 0 then
+        triggerEvent("onRoundStart", getRootElement())
+    end
 end
 
 function get_team_alive_count(team)
