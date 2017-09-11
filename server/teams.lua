@@ -65,8 +65,13 @@ local function round_end_handler(winning_team_name)
     
     respawn_players(team_ct)
     respawn_players(team_t)
+
+    for i,player in ipairs(getElementByType("player")) do
+        triggerEvent("onRoundStart", player)
+    end
 end
 
 addEventHandler("onRoundEnd", getRootElement(), round_end_handler)
 addEventHandler("onRoundEnding", getRootElement(), round_ending_handler)
 addEventHandler("onTeamChosen", getRootElement(), team_chosen_handler )
+
