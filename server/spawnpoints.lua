@@ -9,13 +9,13 @@ local radar_area_t = createRadarArea(math.min(spawn_area_t.x1, spawn_area_t.x2),
     math.min(spawn_area_t.y1, spawn_area_t.y2),
     math.abs(spawn_area_t.x1 - spawn_area_t.x2),
     math.abs(spawn_area_t.y1 - spawn_area_t.y2),
-    255, 0, 0, 255)
+    255, 0, 0, 128)
     
 local radar_area_ct = createRadarArea(math.min(spawn_area_ct.x1, spawn_area_ct.x2),
     math.min(spawn_area_ct.y1, spawn_area_ct.y2),
     math.abs(spawn_area_ct.x1 - spawn_area_ct.x2),
     math.abs(spawn_area_ct.y1 - spawn_area_ct.y2),
-    0, 0, 255, 255)
+    0, 0, 255, 128)
 
 local function get_point_from_area(radar_area)
     local position = {}

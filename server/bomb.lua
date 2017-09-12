@@ -7,6 +7,7 @@ local bomb_planted_col = nil
 local bomb_planted_obj = nil
 
 local bomb_site_a = {["x1"] = 2036.966796875, ["y1"] = -1682.4130859375, ["x2"] = 2046.388671875, ["y2"] = -1662.7763671875, ["z"] = 13.546875}
+local bomb_site_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z)
 
 local bomb_timer = nil
 local bomb_time = 30000
