@@ -2,8 +2,8 @@ function get_random_element(array)
     return array[math.random(#array)]
 end
 
-local spawn_area_t = {["x1"] = 2007.9140625, ["y1"] = -1680.0068359375, ["x2"] = 1995.9482421875, ["y2"] = -1664.7294921875, ["z"] = 13.546875}
-local spawn_area_ct = {["x1"] = 2075.18359375, ["y1"] = -1678.7763671875, ["x2"] = 2087.8046875, ["y2"] = -1664.5517578125, ["z"] = 13.546875}
+local spawn_area_t = {["x1"] = 2007.099609375, ["y1"] = -1744.5419921875, ["x2"] = 1993.56640625, ["y2"] = -1757.9384765625, ["z"] = 13.546875}
+local spawn_area_ct = {["x1"] = 2089.3388671875, ["y1"] = -1621.2353515625, ["x2"] = 2074.244140625, ["y2"] = -1606.11328125, ["z"] = 13.546875}
 
 local radar_area_t = createRadarArea(math.min(spawn_area_t.x1, spawn_area_t.x2),
     math.min(spawn_area_t.y1, spawn_area_t.y2),
