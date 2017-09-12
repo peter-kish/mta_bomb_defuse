@@ -42,6 +42,14 @@ local function bomb_exploded_handler()
     setTimer(trigger_round_end, ending_state_time, 1, team_t_name)
 end
 
+local function bomb_defused_handler(player)
+    for i,player in ipairs(getElementsByType("player")) do
+        triggerEvent("onRoundEnding", player, team_t_name)
+        setTimer(fade_camera_to_black, ending_state_time - 1000, 1, player)
+    end
+    setTimer(trigger_round_end, ending_state_time, 1, team_t_name)
+end
+
 local function bomb_planted_handler()
     bomb_planted = true
 end
@@ -52,5 +60,6 @@ end
 
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
 addEventHandler("onBombExploded", getRootElement(), bomb_exploded_handler)
+addEventHandler("onBombDefused", getRootElement(), bomb_defused_handler)
 addEventHandler("onBombPlanted", getRootElement(), bomb_planted_handler)
 addEventHandler("onRoundStart", getRootElement(), round_start_handler)
