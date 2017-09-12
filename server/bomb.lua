@@ -6,8 +6,16 @@ local bomb_dropped_obj = nil
 local bomb_planted_col = nil
 local bomb_planted_obj = nil
 
-local bomb_site_a = {["x1"] = 2036.966796875, ["y1"] = -1682.4130859375, ["x2"] = 2046.388671875, ["y2"] = -1662.7763671875, ["z"] = 13.546875}
-local bomb_site_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z)
+-- Test site
+--local bomb_site_a = {["x1"] = 2036.966796875, ["y1"] = -1682.4130859375, ["x2"] = 2046.388671875, ["y2"] = -1662.7763671875, ["z"] = 13.546875}
+
+-- LS Gas Station
+local bomb_site_a = {["x1"] = 1950.7734375, ["y1"] = -1782.8076171875, ["x2"] = 1932.1337890625, ["y2"] = -1762.2880859375, ["z"] = 13.546875}
+-- LS Hospital
+local bomb_site_b = {["x1"] = 2022.2958984375, ["y1"] = -1403.640625, ["x2"] = 2037.2802734375, ["y2"] = -1435.4267578125, ["z"] = 17.181692123413}
+
+local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z)
+local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z)
 
 local bomb_timer = nil
 local bomb_time = 30000
@@ -21,6 +29,11 @@ local radar_area_bomb_site_a = createRadarArea(math.min(bomb_site_a.x1, bomb_sit
     math.min(bomb_site_a.y1, bomb_site_a.y2),
     math.abs(bomb_site_a.x1 - bomb_site_a.x2),
     math.abs(bomb_site_a.y1 - bomb_site_a.y2),
+    0, 255, 0, 128)
+local radar_area_bomb_site_b = createRadarArea(math.min(bomb_site_b.x1, bomb_site_b.x2),
+    math.min(bomb_site_b.y1, bomb_site_b.y2),
+    math.abs(bomb_site_b.x1 - bomb_site_b.x2),
+    math.abs(bomb_site_b.y1 - bomb_site_b.y2),
     0, 255, 0, 128)
 
 local function create_dropped_bomb(x, y, z)
@@ -106,11 +119,15 @@ local function startBombCountdown(count)
     countdown_timer = setTimer(bombCountdown, 1000, count)
 end
 
+local function is_on_bomb_site(x, y)
+    return (isInsideRadarArea(radar_area_bomb_site_a, x, y) or isInsideRadarArea(radar_area_bomb_site_b, x, y))
+end
+
 local function plant_bomb(player)
     if player == bomb_carrier then
         if not isPedInVehicle(player) then
             local player_x, player_y, player_z = getElementPosition(player)
-            if isInsideRadarArea(radar_area_bomb_site_a, player_x, player_y) then
+            if is_on_bomb_site(player_x, player_y) then
                 create_planted_bomb(player_x, player_y, player_z)
                 outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
                 bomb_carrier = nil
