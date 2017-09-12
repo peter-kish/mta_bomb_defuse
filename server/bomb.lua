@@ -59,8 +59,8 @@ end
 
 local function round_start_handler()
     local terrorist = getPlayersInTeam(getTeamFromName(team_t_name))
-    --remove_dropped_bomb()
-    --remove_planted_bomb()
+    remove_dropped_bomb()
+    remove_planted_bomb()
     if #terrorist > 0 then
         local random_player_index = math.random(1, #terrorist)
         bomb_carrier = terrorist[random_player_index]
@@ -108,22 +108,26 @@ end
 
 local function plant_bomb(player)
     if player == bomb_carrier then
-        local player_x, player_y, player_z = getElementPosition(player)
-        if isInsideRadarArea(radar_area_bomb_site_a, player_x, player_y) then
-            create_planted_bomb(player_x, player_y, player_z)
-            outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
-            bomb_carrier = nil
-            
-            bomb_timer = setTimer(bomb_explode, bomb_time, 1)
-            
-            for i,p in ipairs(getElementsByType("player")) do
-                triggerEvent("onBombPlanted", p)
-                if bomb_time >= 10000 then
-                    countdown_timer = setTimer(startBombCountdown, bomb_time - 10000, 1, 10)
+        if not isPedInVehicle(player) then
+            local player_x, player_y, player_z = getElementPosition(player)
+            if isInsideRadarArea(radar_area_bomb_site_a, player_x, player_y) then
+                create_planted_bomb(player_x, player_y, player_z)
+                outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
+                bomb_carrier = nil
+                
+                bomb_timer = setTimer(bomb_explode, bomb_time, 1)
+                
+                for i,p in ipairs(getElementsByType("player")) do
+                    triggerEvent("onBombPlanted", p)
+                    if bomb_time >= 10000 then
+                        countdown_timer = setTimer(startBombCountdown, bomb_time - 10000, 1, 10)
+                    end
                 end
+            else
+                outputChatBox("You have to be on a bomb site to plant the bomb!", player)
             end
         else
-            outputChatBox("You have to be on a bomb site to plant the bomb!", player)
+            outputChatBox("Leave the vehicle to plant the bomb!", player)
         end
     else
         outputChatBox("You don't have the bomb!", player)
@@ -131,20 +135,28 @@ local function plant_bomb(player)
 end
 
 local function defuse_bomb(player)
-    if bomb_planted_col and isElementWithinColShape(player, bomb_planted_col) then
-        outputChatBox("The bomb has defused!", getRootElement(), 255, 0, 0)
-        
-        remove_planted_bomb()
-        if bomb_timer then
-            killTimer(bomb_timer)
-            bomb_timer = nil
-        end
-        
-        for i,p in ipairs(getElementsByType("player")) do
-            triggerEvent("onBombDefused", p, player)
+    if not isPedInVehicle(player) then
+        if bomb_planted_col and isElementWithinColShape(player, bomb_planted_col) then
+            outputChatBox("The bomb has defused!", getRootElement(), 255, 0, 0)
+            
+            remove_planted_bomb()
+            if bomb_timer then
+                killTimer(bomb_timer)
+                bomb_timer = nil
+            end
+            if countdown_timer then
+                killTimer(countdown_timer)
+                countdown_timer = nil
+            end
+            
+            for i,p in ipairs(getElementsByType("player")) do
+                triggerEvent("onBombDefused", p, player)
+            end
+        else
+            outputChatBox("You have to be near the bomb to defuse!", player)
         end
     else
-        outputChatBox("You have to be near the bomb to defuse!", player)
+        outputChatBox("Leave the vehicle to defuse the bomb!", player)
     end
 end
 
