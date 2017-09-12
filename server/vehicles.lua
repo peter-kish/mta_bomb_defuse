@@ -25,7 +25,7 @@ local function vehicle_buy_handler(vehicle_name)
     end
 end
 
-local function round_end_handler(winning_team_name)
+local function round_start_handler(winning_team_name)
     -- Clean up the vehicles
     local vehicles = getElementsByType("vehicle")
     for i,vehicle in ipairs(vehicles) do
@@ -34,4 +34,4 @@ local function round_end_handler(winning_team_name)
 end
 
 addEventHandler("onVehicleBuy", getRootElement(), vehicle_buy_handler )
-addEventHandler("onRoundEnd", getRootElement(), round_end_handler)
+addEventHandler("onRoundStart", getRootElement(), round_start_handler)
