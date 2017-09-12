@@ -53,11 +53,13 @@ local function choose_team_t()
 end
 
 local function buy_weapon()
-    triggerServerEvent("onWeaponBuy", localPlayer, guiGetText(source))
+    local weapon_name = getElementData(source, "weapon_name")
+    triggerServerEvent("onWeaponBuy", localPlayer, weapon_name)
 end
 
 local function buy_vehicle()
-    triggerServerEvent("onVehicleBuy", localPlayer, guiGetText(source))
+    local vehicle_name = getElementData(source, "vehicle_name")
+    triggerServerEvent("onVehicleBuy", localPlayer, vehicle_name)
 end
 
 local function buy_close()
@@ -73,7 +75,8 @@ local function refresh_weapon_buttons(money)
     
     -- Weapon buttons
     for i, button in ipairs(gui_weapon_buttons) do
-        local weapon = get_weapon_info(guiGetText(button))
+        local weapon_name = getElementData(button, "weapon_name")
+        local weapon = get_weapon_info(weapon_name)
         if weapon and weapon.cost > money then
             guiSetEnabled(button, false)
         else
@@ -89,7 +92,8 @@ local function refresh_weapon_buttons(money)
     
     -- Vehicle buttons
     for i, button in ipairs(gui_vehicle_buttons) do
-        local vehicle = get_vehicle_info(guiGetText(button))
+        local vehicle_name = getElementData(button, "vehicle_name")
+        local vehicle = get_vehicle_info(vehicle_name)
         if vehicle and vehicle.cost > money then
             guiSetEnabled(button, false)
         else
@@ -137,7 +141,8 @@ local function create_buy_menu_dialog()
     for i = 1, get_weapon_count() do
         local weapon = get_weapon_info_by_index(i)
         if weapon.slot == "primary_slot" then
-            local button = guiCreateButton(0.04, 0.1 + button_index * 0.15, 0.2, 0.1, weapon.name, true, gui_wdw_buy)
+            local button = guiCreateButton(0.04, 0.1 + button_index * 0.15, 0.2, 0.1, weapon.name .. "\n " .. weapon.cost .. "$", true, gui_wdw_buy)
+            setElementData(button, "weapon_name", weapon.name)
             button_index = button_index + 1
             addEventHandler("onClientGUIClick", button, buy_weapon, false)
             table.insert(gui_weapon_buttons, button)
@@ -149,7 +154,8 @@ local function create_buy_menu_dialog()
     for i = 1, get_weapon_count() do
         local weapon = get_weapon_info_by_index(i)
         if weapon.slot == "secondary_slot" then
-            local button = guiCreateButton(0.28, 0.1 + button_index * 0.15, 0.2, 0.1, weapon.name, true, gui_wdw_buy)
+            local button = guiCreateButton(0.28, 0.1 + button_index * 0.15, 0.2, 0.1, weapon.name .. "\n " .. weapon.cost .. "$", true, gui_wdw_buy)
+            setElementData(button, "weapon_name", weapon.name)
             button_index = button_index + 1
             addEventHandler("onClientGUIClick", button, buy_weapon, false)
             table.insert(gui_weapon_buttons, button)
@@ -161,7 +167,8 @@ local function create_buy_menu_dialog()
     for i = 1, get_weapon_count() do
         local weapon = get_weapon_info_by_index(i)
         if weapon.slot == "special_slot" then
-            local button = guiCreateButton(0.52, 0.1 + button_index * 0.15, 0.2, 0.1, weapon.name, true, gui_wdw_buy)
+            local button = guiCreateButton(0.52, 0.1 + button_index * 0.15, 0.2, 0.1, weapon.name .. "\n " .. weapon.cost .. "$", true, gui_wdw_buy)
+            setElementData(button, "weapon_name", weapon.name)
             button_index = button_index + 1
             addEventHandler("onClientGUIClick", button, buy_weapon, false)
             table.insert(gui_weapon_buttons, button)
@@ -172,7 +179,8 @@ local function create_buy_menu_dialog()
     guiCreateLabel(0.76, 0.05, 0.2, 0.1, "Vehicles", true, gui_wdw_buy)
     for i = 1, get_vehicle_count() do
         local vehicle = get_vehicle_info_by_index(i)
-        local button = guiCreateButton(0.76, 0.1 + button_index * 0.15, 0.2, 0.1, vehicle.name, true, gui_wdw_buy)
+        local button = guiCreateButton(0.76, 0.1 + button_index * 0.15, 0.2, 0.1, vehicle.name .. "\n " .. vehicle.cost .. "$", true, gui_wdw_buy)
+        setElementData(button, "vehicle_name", vehicle.name)
         button_index = button_index + 1
         addEventHandler("onClientGUIClick", button, buy_vehicle, false)
         table.insert(gui_vehicle_buttons, button)
