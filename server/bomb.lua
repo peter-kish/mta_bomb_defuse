@@ -9,10 +9,12 @@ local bomb_planted_obj = nil
 local bomb_site_a = {["x1"] = 2036.966796875, ["y1"] = -1682.4130859375, ["x2"] = 2046.388671875, ["y2"] = -1662.7763671875, ["z"] = 13.546875}
 
 local bomb_timer = nil
-local bomb_time = 20000
+local bomb_time = 30000
 local bomb_radius = 10
 local bomb_strength = 10
 local bomb_explosion_delay = 250
+local countdown_timer = nil;
+local countdown = 0
 
 local radar_area_bomb_site_a = createRadarArea(math.min(bomb_site_a.x1, bomb_site_a.x2),
     math.min(bomb_site_a.y1, bomb_site_a.y2),
@@ -92,6 +94,17 @@ local function bomb_explode()
     bomb_timer = nil
 end
 
+local function bombCountdown()
+    countdown = countdown - 1
+    outputChatBox("Bomb: " .. countdown, getRootElement(), 255, 0, 0)
+end
+
+local function startBombCountdown(count)
+    countdown = count
+    outputChatBox("Bomb: " .. countdown, getRootElement(), 255, 0, 0)
+    countdown_timer = setTimer(bombCountdown, 1000, count)
+end
+
 local function plant_bomb(player)
     if player == bomb_carrier then
         local player_x, player_y, player_z = getElementPosition(player)
@@ -104,6 +117,9 @@ local function plant_bomb(player)
             
             for i,p in ipairs(getElementsByType("player")) do
                 triggerEvent("onBombPlanted", p)
+                if bomb_time >= 10000 then
+                    countdown_timer = setTimer(startBombCountdown, bomb_time - 10000, 1, 10)
+                end
             end
         else
             outputChatBox("You have to be on a bomb site to plant the bomb!", player)
