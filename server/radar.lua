@@ -1,3 +1,5 @@
+local bomb_blip = nil
+
 local function setElementVisibleToTeam(element, team)
     setElementVisibleTo(element, getRootElement(), false)
     for i,player in ipairs(getPlayersInTeam(team)) do
@@ -15,11 +17,17 @@ local function get_player_blip(player)
 end
 
 local function player_wasted_handler()
-    local blip = get_player_blip(player)
+    local blip = get_player_blip(source)
     setElementVisibleTo(blip, getRootElement(), false)
 end
 
 local function round_start_handler()
+    -- Destroy the bomb radar blip
+    if bomb_blip then
+        destroyElement(bomb_blip)
+        bomb_blip = nil
+    end
+    -- Set the team radar blips visibility
     for i,player in ipairs(getElementsByType("player")) do
         local blip = get_player_blip(player)
         setElementVisibleToTeam(blip, getPlayerTeam(player))
@@ -43,7 +51,22 @@ local function player_quit_handler()
     end
 end
 
+local function bomb_dropped_handler(bomb_dropped_obj)
+    local x, y, z = getElementPosition(bomb_dropped_obj)
+    bomb_blip = createBlip(x, y, z, 0, 2, 255, 255, 0, 255)
+    setElementVisibleToTeam(bomb_blip, getTeamFromName(team_t_name))
+end
+
+local function bomb_picked_up_handler(player)
+    if bomb_blip then
+        destroyElement(bomb_blip)
+        bomb_blip = nil
+    end
+end
+
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
 addEventHandler("onRoundStart", getRootElement(), round_start_handler)
 addEventHandler("onPlayerJoin", getRootElement(), player_join_handler)
 addEventHandler("onPlayerQuit", getRootElement(), player_quit_handler)
+addEventHandler("onBombDropped", getRootElement(), bomb_dropped_handler)
+addEventHandler("onBombPickedUp", getRootElement(), bomb_picked_up_handler)
