@@ -196,6 +196,7 @@ local function player_wasted_handler()
 
         local player_x, player_y, player_z = getElementPosition(source)
         create_dropped_bomb(player_x, player_y, player_z)
+        triggerEvent("onBombDropped", source, bomb_dropped_obj)
     end
 end
 
@@ -207,6 +208,7 @@ local function col_shape_handler(player, dimension)
                 outputChatBox(getPlayerName(player) .. " picked up the bomb", terrorist, 255, 0 ,0)
             end
             remove_dropped_bomb()
+            triggerEvent("onBombPickedUp", player)
         end
     end
 end
