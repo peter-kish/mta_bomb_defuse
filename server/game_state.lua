@@ -44,10 +44,10 @@ end
 
 local function bomb_defused_handler(player)
     for i,player in ipairs(getElementsByType("player")) do
-        triggerEvent("onRoundEnding", player, team_t_name)
+        triggerEvent("onRoundEnding", player, team_ct_name)
         setTimer(fade_camera_to_black, ending_state_time - 1000, 1, player)
     end
-    setTimer(trigger_round_end, ending_state_time, 1, team_t_name)
+    setTimer(trigger_round_end, ending_state_time, 1, team_ct_name)
 end
 
 local function bomb_planted_handler()
