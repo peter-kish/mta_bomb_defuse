@@ -152,8 +152,7 @@ local function start_plant_bomb(player)
         if not isPedInVehicle(player) then
             local player_x, player_y, player_z = getElementPosition(player)
             if is_on_bomb_site(player_x, player_y) then
-                -- plant_bomb(player_x, player_y, player_z)
-                outputChatBox("Planting the bomb...", player)
+                --outputChatBox("Planting the bomb...", player)
                 plant_timer = setTimer(plant_bomb, plant_time, 1, player_x, player_y, player_z)
                 setPedAnimation(player, -- the player
                     "bomber",           -- animation block
@@ -177,7 +176,7 @@ end
 local function cancel_plant_bomb(player)
     if plant_timer then
         if player == bomb_carrier then
-            outputChatBox("Planting canceled", player)
+            --outputChatBox("Planting canceled", player)
             killTimer(plant_timer)
             plant_timer = nil
             setPedAnimation(player)
@@ -209,7 +208,7 @@ local function start_defuse_bomb(player)
         if bomb_planted_col and isElementWithinColShape(player, bomb_planted_col) then
             --defuse_bomb(player)
             if defuser == nil then
-                outputChatBox("Defusing the bomb...", player)
+                --outputChatBox("Defusing the bomb...", player)
                 defuser = player
                 defuse_timer = setTimer(defuse_bomb, defuse_time, 1, player)
                 setPedAnimation(player, -- the player
@@ -232,7 +231,7 @@ end
 local function cancel_defuse_bomb(player)
     if defuse_timer then
         if player == defuser then
-            outputChatBox("Defusing canceled", player)
+            --outputChatBox("Defusing canceled", player)
             defuser = nil
             if defuse_timer then
                 killTimer(defuse_timer)
@@ -292,7 +291,6 @@ local function col_shape_handler(player, dimension)
 end
 
 local function round_end_handler(winning_team_name)
-    outputChatBox("SERVER: BOMB: Round end", getRootElement())
     -- Clean up the bomb elements
     remove_dropped_bomb()
     remove_planted_bomb()
