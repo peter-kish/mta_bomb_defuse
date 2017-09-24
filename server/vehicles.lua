@@ -34,4 +34,4 @@ local function round_start_handler(winning_team_name)
 end
 
 addEventHandler("onVehicleBuy", getRootElement(), vehicle_buy_handler )
-addEventHandler("onRoundStart", getRootElement(), round_start_handler)
+addEventHandler("onRoundStart", mtacs_element, round_start_handler)

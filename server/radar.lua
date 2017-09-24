@@ -65,7 +65,7 @@ local function bomb_picked_up_handler(player)
 end
 
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
-addEventHandler("onRoundStart", getRootElement(), round_start_handler)
+addEventHandler("onRoundStart", mtacs_element, round_start_handler)
 addEventHandler("onPlayerJoin", getRootElement(), player_join_handler)
 addEventHandler("onPlayerQuit", getRootElement(), player_quit_handler)
 addEventHandler("onBombDropped", getRootElement(), bomb_dropped_handler)

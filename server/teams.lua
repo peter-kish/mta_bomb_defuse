@@ -19,7 +19,7 @@ local function team_chosen_handler(team_name)
     spawn_player_for_team(source, team_name)
     
     if n_t == 0 and n_ct == 0 then
-        triggerEvent("onRoundStart", getRootElement())
+        triggerEvent("onRoundStart", mtacs_element)
     end
 end
 
@@ -58,7 +58,7 @@ local function team_add_money(team, money)
 end
 
 local function round_ending_handler(winning_team_name)
-    outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", source)
+    outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement())
 end
 
 local function round_end_handler(winning_team_name)
@@ -73,12 +73,10 @@ local function round_end_handler(winning_team_name)
     respawn_players(team_ct)
     respawn_players(team_t)
 
-    for i,player in ipairs(getElementsByType("player")) do
-        triggerEvent("onRoundStart", player)
-    end
+    triggerEvent("onRoundStart", mtacs_element)
 end
 
-addEventHandler("onRoundEnd", getRootElement(), round_end_handler)
-addEventHandler("onRoundEnding", getRootElement(), round_ending_handler)
+addEventHandler("onRoundEnd", mtacs_element, round_end_handler)
+addEventHandler("onRoundEnding", mtacs_element, round_ending_handler)
 addEventHandler("onTeamChosen", getRootElement(), team_chosen_handler )
 

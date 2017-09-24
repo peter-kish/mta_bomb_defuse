@@ -111,9 +111,7 @@ local function bomb_explode()
     remove_planted_bomb()
     
     multi_explosion(x, y, z, bomb_strength, bomb_radius)
-    for i,p in ipairs(getElementsByType("player")) do
-        triggerEvent("onBombExploded", p)
-    end
+    triggerEvent("onBombExploded", mtacs_element)
     
     bomb_timer = nil
 end
@@ -140,9 +138,7 @@ local function plant_bomb(x, y, z)
     
     bomb_timer = setTimer(bomb_explode, bomb_time, 1)
     
-    for i,p in ipairs(getElementsByType("player")) do
-        triggerEvent("onBombPlanted", p)
-    end
+    triggerEvent("onBombPlanted", mtacs_element)
     if bomb_time >= 10000 then
         countdown_timer = setTimer(startBombCountdown, bomb_time - 10000, 1, 10)
     end
@@ -199,9 +195,7 @@ local function defuse_bomb(player)
         countdown_timer = nil
     end
     
-    for i,p in ipairs(getElementsByType("player")) do
-        triggerEvent("onBombDefused", p, player)
-    end
+    triggerEvent("onBombDefused", mtacs_element, player)
 end
 
 local function start_defuse_bomb(player)
@@ -321,9 +315,9 @@ local function quit_handler()
     end
 end
 
-addEventHandler("onRoundStart", getRootElement(), round_start_handler )
+addEventHandler("onRoundStart", mtacs_element, round_start_handler )
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
 addEventHandler("onColShapeHit", getRootElement(), col_shape_handler)
-addEventHandler("onRoundEnd", getRootElement(), round_end_handler)
+addEventHandler("onRoundEnd", mtacs_element, round_end_handler)
 addEventHandler("onPlayerJoin", getRootElement(), join_handler)
 addEventHandler("onPlayerQuit", getRootElement(), quit_handler)

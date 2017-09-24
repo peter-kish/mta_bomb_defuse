@@ -1,3 +1,5 @@
+mtacs_element = createElement("mtacs_element")
+
 addEvent("onTeamChosen", true)
 addEvent("onSpawn", true)
 addEvent("onRoundEnding", true)
