@@ -10,7 +10,6 @@ local function open_dialog(dialog)
     if (dialog ~= nil) then
         guiSetVisible(dialog, true)
         showCursor(true)
-        guiSetInputEnabled(true)
     else
         error("GUI - Dialog not created!")
     end
@@ -20,7 +19,6 @@ local function close_dialog(dialog)
     if (dialog ~= nil) then
         guiSetVisible(dialog, false)
         showCursor(false)
-        guiSetInputEnabled(false)
     else
         error("GUI - Dialog not created!")
     end
@@ -203,7 +201,7 @@ end
 
 local function started_resource(startedRes )
     --outputChatBox("startedRes", client)
-    bindKey("F3", "down", show_buy_dialog)
+    bindKey("b", "down", show_buy_dialog)
     init_gui()
 end
 
