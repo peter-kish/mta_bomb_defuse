@@ -134,6 +134,7 @@ end
 local function plant_bomb(x, y, z)
     create_planted_bomb(x, y, z)
     outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
+    triggerClientEvent(bomb_carrier, "onPlantDefuseEnd", bomb_carrier)
     bomb_carrier = nil
     
     bomb_timer = setTimer(bomb_explode, bomb_time, 1)
@@ -159,6 +160,7 @@ local function start_plant_bomb(player)
                     false,              -- don't update position
                     false,              -- not interruptable
                     false)              -- don't freeze last frame
+                triggerClientEvent(player, "onPlantDefuseStart", player, plant_time)
             else
                 outputChatBox("You have to be on a bomb site to plant the bomb!", player)
             end
@@ -177,16 +179,18 @@ local function cancel_plant_bomb(player)
             killTimer(plant_timer)
             plant_timer = nil
             setPedAnimation(player)
+            triggerClientEvent(player, "onPlantDefuseEnd", player)
         end
     end
 end
 
 local function defuse_bomb(player)
     outputChatBox("The bomb has defused!", getRootElement(), 255, 0, 0)
+    triggerClientEvent(player, "onPlantDefuseEnd", player)
     
     defuser = nil
     remove_planted_bomb()
-    if bomb_timer then
+    if isTimer(bomb_timer) then
         killTimer(bomb_timer)
         bomb_timer = nil
     end
@@ -214,6 +218,7 @@ local function start_defuse_bomb(player)
                     false,              -- don't update position
                     false,              -- not interruptable
                     false)              -- don't freeze last frame
+                triggerClientEvent(player, "onPlantDefuseStart", player, plant_time)
             end
         else
             outputChatBox("You have to be near the bomb to defuse!", player)
@@ -227,6 +232,7 @@ local function cancel_defuse_bomb(player)
     if defuse_timer then
         if player == defuser then
             --outputChatBox("Defusing canceled", player)
+            triggerClientEvent(player, "onPlantDefuseEnd", player)
             defuser = nil
             if defuse_timer then
                 killTimer(defuse_timer)
@@ -291,7 +297,7 @@ local function round_end_handler(winning_team_name)
     remove_planted_bomb()
     bomb_carrier = nil
     -- Kill the timer, just in case
-    if bomb_timer then
+    if isTimer(bomb_timer) then
         killTimer(bomb_timer)
         bomb_timer = nil
     end

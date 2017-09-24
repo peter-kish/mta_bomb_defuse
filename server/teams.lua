@@ -53,7 +53,7 @@ local function team_add_money(team, money)
     local players = getPlayersInTeam(team)
     for i = 1, #players do
         setPlayerMoney(players[i], getPlayerMoney(players[i]) + money)
-        triggerClientEvent ("onMoneyChange", source, getPlayerMoney(source))
+        triggerClientEvent ("onMoneyChange", source, getPlayerMoney(players[i]))
     end
 end
 

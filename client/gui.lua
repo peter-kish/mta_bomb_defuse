@@ -1,10 +1,16 @@
 addEvent("onAskTeam", true)
 addEvent("onMoneyChange", true)
+addEvent("onPlantDefuseStart", true)
+addEvent("onPlantDefuseEnd", true)
 
 local gui_wdw_team = nil
 local gui_wdw_buy = nil
+local gui_progress = nil
 local gui_weapon_buttons = {}
 local gui_vehicle_buttons = {}
+
+local progress_timer = nil
+local progress_time = 0
 
 local function open_dialog(dialog)
     if (dialog ~= nil) then
@@ -189,14 +195,20 @@ local function create_buy_menu_dialog()
     --addEventHandler("onClientGUIClick", gui_btn_buy_close, buy_close, false)
 end
 
+local function create_progress_bar()
+    gui_progress = guiCreateProgressBar(0.25, 0.8, 0.5, 0.05, true, nil)
+end
+
 local function init_gui()
     --outputChatBox("init_gui", client)
     
     create_choose_team_dialog()
     create_buy_menu_dialog()
+    create_progress_bar()
     
     guiSetVisible(gui_wdw_team, false)
     guiSetVisible(gui_wdw_buy, false)
+    guiSetVisible(gui_progress, false)
 end
 
 local function started_resource(startedRes )
@@ -205,6 +217,32 @@ local function started_resource(startedRes )
     init_gui()
 end
 
+local function update_progress_bar()
+    if isTimer(progress_timer) then
+        local remaining, executesRemaining, totalExecutes = getTimerDetails(progress_timer)
+        local progress = ((progress_time - remaining) / progress_time) * 100
+        guiProgressBarSetProgress(gui_progress, progress)
+        setTimer(update_progress_bar, 100, 1)
+    end
+end
+
+local function plant_defuse_end()
+    guiSetVisible(gui_progress, false)
+    if isTimer(progress_timer) then
+        killTimer(progress_timer)
+    end
+end
+
+local function plant_defuse_start(the_time)
+    guiProgressBarSetProgress(gui_progress, 0)
+    guiSetVisible(gui_progress, true)
+    progress_time = the_time
+    progress_timer = setTimer(function() plant_defuse_end() end, the_time, 1)
+    setTimer(update_progress_bar, 100, 1)
+end
+
 addEventHandler("onClientResourceStart", getResourceRootElement(), started_resource)	
 addEventHandler("onAskTeam", localPlayer, show_team_dialog)
 addEventHandler("onMoneyChange", localPlayer, refresh_weapon_buttons)
+addEventHandler("onPlantDefuseStart", localPlayer, plant_defuse_start)
+addEventHandler("onPlantDefuseEnd", localPlayer, plant_defuse_end)
