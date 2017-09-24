@@ -1,3 +1,15 @@
+local function get_weapon_ammo(weapon)
+    local slot = getSlotFromWeapon(weapon.ID)
+    if slot then
+        return getPedTotalAmmo(source, slot)
+    end
+    return false
+end
+
+local function set_weapon_ammo(weapon, ammo)
+    setWeaponAmmo(source, weapon.ID, ammo)
+end
+
 local function equip_weapon(weapon)
     local slot_weapon_name = getElementData(source, weapon.slot)
     if slot_weapon_name and slot_weapon_name ~= weapon.name then
@@ -7,6 +19,12 @@ local function equip_weapon(weapon)
     end
     
     giveWeapon(source, weapon.ID, weapon.ammo_per_mag, true)
+    
+    if get_weapon_ammo(weapon) >= weapon.max_ammo then
+        set_weapon_ammo(weapon, weapon.max_ammo)
+        return
+    end
+    
     setElementData(source, weapon.slot, weapon.name, true)
 end
 
@@ -23,6 +41,12 @@ local function weapon_buy_handler(weapon_name)
     end
     
     local weapon = get_weapon_info(weapon_name)
+    
+    if get_weapon_ammo(weapon) >= weapon.max_ammo then
+        outputChatBox("SERVER: Maximum ammo reached!", source)
+        return
+    end
+    
     if weapon then
         --outputChatBox("SERVER: weaponBuyHandler: Buying " .. weapon.name, source)
         if getPlayerMoney(source) >= weapon.cost then
