@@ -1,4 +1,4 @@
-setFPSLimit(100)
+setFPSLimit(60)
 
 local function join_handler()
     triggerClientEvent (source, "onAskTeam", source)
