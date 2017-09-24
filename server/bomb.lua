@@ -18,7 +18,7 @@ local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
 
 local bomb_timer = nil
-local bomb_time = 30000
+local bomb_time = 120000
 local bomb_radius = 10
 local bomb_strength = 10
 local bomb_explosion_delay = 250
@@ -79,7 +79,7 @@ local function round_start_handler()
     local terrorist = getPlayersInTeam(getTeamFromName(team_t_name))
     remove_dropped_bomb()
     remove_planted_bomb()
-    if #terrorist > 0 then
+    if (#terrorist > 0) and (bomb_carrier == nil) then
         local random_player_index = math.random(1, #terrorist)
         bomb_carrier = terrorist[random_player_index]
         outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
@@ -141,9 +141,9 @@ local function plant_bomb(x, y, z)
     
     for i,p in ipairs(getElementsByType("player")) do
         triggerEvent("onBombPlanted", p)
-        if bomb_time >= 10000 then
-            countdown_timer = setTimer(startBombCountdown, bomb_time - 10000, 1, 10)
-        end
+    end
+    if bomb_time >= 10000 then
+        countdown_timer = setTimer(startBombCountdown, bomb_time - 10000, 1, 10)
     end
 end
 
@@ -294,6 +294,7 @@ local function round_end_handler(winning_team_name)
     -- Clean up the bomb elements
     remove_dropped_bomb()
     remove_planted_bomb()
+    bomb_carrier = nil
     -- Kill the timer, just in case
     if bomb_timer then
         killTimer(bomb_timer)
