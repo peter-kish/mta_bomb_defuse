@@ -1,7 +1,6 @@
 setFPSLimit(60)
 
 local function join_handler()
-    triggerClientEvent (source, "onAskTeam", source)
     setPlayerMoney(source, 800, true)
     triggerClientEvent ("onMoneyChange", source, getPlayerMoney(source))
     

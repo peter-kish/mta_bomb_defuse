@@ -1,4 +1,3 @@
-addEvent("onAskTeam", true)
 addEvent("onMoneyChange", true)
 addEvent("onPlantDefuseStart", true)
 addEvent("onPlantDefuseEnd", true)
@@ -215,6 +214,7 @@ local function started_resource(startedRes )
     --outputChatBox("startedRes", client)
     bindKey("b", "down", show_buy_dialog)
     init_gui()
+    show_team_dialog()
 end
 
 local function update_progress_bar()
@@ -242,7 +242,6 @@ local function plant_defuse_start(the_time)
 end
 
 addEventHandler("onClientResourceStart", getResourceRootElement(), started_resource)	
-addEventHandler("onAskTeam", localPlayer, show_team_dialog)
 addEventHandler("onMoneyChange", localPlayer, refresh_weapon_buttons)
 addEventHandler("onPlantDefuseStart", localPlayer, plant_defuse_start)
 addEventHandler("onPlantDefuseEnd", localPlayer, plant_defuse_end)
