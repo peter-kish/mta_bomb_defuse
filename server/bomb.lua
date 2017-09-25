@@ -19,7 +19,7 @@ local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
 
 local bomb_timer = nil
-local bomb_time = 120000
+local bomb_time = 12000--0
 local bomb_radius = 10
 local bomb_strength = 10
 local bomb_explosion_delay = 250
@@ -77,12 +77,27 @@ local function remove_planted_bomb()
 end
 
 local function round_start_handler()
-    local terrorist = getPlayersInTeam(getTeamFromName(team_t_name))
+    -- Clean up the bomb elements
     remove_dropped_bomb()
     remove_planted_bomb()
-    if (#terrorist > 0) and (bomb_carrier == nil) then
-        local random_player_index = math.random(1, #terrorist)
-        bomb_carrier = terrorist[random_player_index]
+    bomb_carrier = nil
+    -- Kill the timer, just in case
+    if isTimer(bomb_timer) then
+        killTimer(bomb_timer)
+        bomb_timer = nil
+    end
+    if countdown_timer then
+        if isTimer(countdown_timer) then
+            killTimer(countdown_timer)
+        end
+        countdown_timer = nil
+    end
+    
+    -- Give the bomb to a random terrorist
+    local terrorists = getPlayersInTeam(getTeamFromName(team_t_name))
+    if (#terrorists > 0) and (bomb_carrier == nil) then
+        local random_player_index = math.random(1, #terrorists)
+        bomb_carrier = terrorists[random_player_index]
         outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
     end
 end
@@ -176,7 +191,9 @@ local function cancel_plant_bomb(player)
     if plant_timer then
         if player == bomb_carrier then
             --outputChatBox("Planting canceled", player)
-            killTimer(plant_timer)
+            if isTimer(plant_timer) then
+                killTimer(plant_timer)
+            end
             plant_timer = nil
             setPedAnimation(player)
             triggerClientEvent(player, "onPlantDefuseEnd", player)
@@ -291,22 +308,6 @@ local function col_shape_handler(player, dimension)
     end
 end
 
-local function round_end_handler(winning_team_name)
-    -- Clean up the bomb elements
-    remove_dropped_bomb()
-    remove_planted_bomb()
-    bomb_carrier = nil
-    -- Kill the timer, just in case
-    if isTimer(bomb_timer) then
-        killTimer(bomb_timer)
-        bomb_timer = nil
-    end
-    if countdown_timer then
-        killTimer(countdown_timer)
-        countdown_timer = nil
-    end
-end
-
 local function join_handler()
     bindKey(source, "x", "down", function (key_presser) start_plant_defuse_bomb(key_presser) end)
     bindKey(source, "x", "up", function (key_presser) cancel_plant_defuse_bomb(key_presser) end)
@@ -324,6 +325,5 @@ end
 addEventHandler("onRoundStart", mtacs_element, round_start_handler )
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
 addEventHandler("onColShapeHit", getRootElement(), col_shape_handler)
-addEventHandler("onRoundEnd", mtacs_element, round_end_handler)
 addEventHandler("onPlayerJoin", getRootElement(), join_handler)
 addEventHandler("onPlayerQuit", getRootElement(), quit_handler)

@@ -59,9 +59,7 @@ end
 
 local function round_ending_handler(winning_team_name)
     outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement())
-end
-
-local function round_end_handler(winning_team_name)
+    
     local winning_team = getTeamFromName(winning_team_name)
     local losing_team = get_opponent_team(winning_team)
     
@@ -69,14 +67,14 @@ local function round_end_handler(winning_team_name)
     
     team_add_money(losing_team, 400)
     team_add_money(winning_team, 800)
-    
-    respawn_players(team_ct)
-    respawn_players(team_t)
-
-    triggerEvent("onRoundStart", mtacs_element)
 end
 
-addEventHandler("onRoundEnd", mtacs_element, round_end_handler)
+local function round_start_handler(winning_team_name)    
+    respawn_players(team_ct)
+    respawn_players(team_t)
+end
+
+addEventHandler("onRoundStart", mtacs_element, round_start_handler)
 addEventHandler("onRoundEnding", mtacs_element, round_ending_handler)
 addEventHandler("onTeamChosen", getRootElement(), team_chosen_handler )
 
