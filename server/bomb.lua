@@ -19,7 +19,7 @@ local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
 
 local bomb_timer = nil
-local bomb_time = 12000--0
+local bomb_time = 120000
 local bomb_radius = 10
 local bomb_strength = 10
 local bomb_explosion_delay = 250
