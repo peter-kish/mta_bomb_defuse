@@ -1,3 +1,5 @@
+local spawn_area_border = 1
+
 function get_random_element(array)
     return array[math.random(#array)]
 end
@@ -35,8 +37,8 @@ local radar_area_ct = createRadarArea(math.min(spawn_area_ct.x1, spawn_area_ct.x
 
 local function get_point_from_area(radar_area)
     local position = {}
-    position.x = math.random(math.min(radar_area.x1, radar_area.x2), math.max(radar_area.x1, radar_area.x2))
-    position.y = math.random(math.min(radar_area.y1, radar_area.y2), math.max(radar_area.y1, radar_area.y2))
+    position.x = math.random(math.min(radar_area.x1, radar_area.x2) + spawn_area_border, math.max(radar_area.x1, radar_area.x2) - spawn_area_border)
+    position.y = math.random(math.min(radar_area.y1, radar_area.y2) + spawn_area_border, math.max(radar_area.y1, radar_area.y2) - spawn_area_border)
     position.z = radar_area.z
     return position
 end
