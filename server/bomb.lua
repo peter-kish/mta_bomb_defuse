@@ -48,9 +48,10 @@ local radar_area_bomb_site_b = createRadarArea(math.min(bomb_site_b.x1, bomb_sit
     0, 255, 0, 128)
 
 local function create_dropped_bomb(x, y, z)
-    bomb_dropped_obj = createObject(2891, x, y, z)
+    bomb_dropped_obj = createObject(2891, x, y, z - 1)
+    setElementCollisionsEnabled(bomb_dropped_obj, false)
+    setElementFrozen(bomb_dropped_obj, true)
     bomb_dropped_col = createColSphere(x, y, z, 2)
-    attachElements(bomb_dropped_obj, bomb_dropped_col)
 end
 
 local function remove_dropped_bomb()
@@ -65,9 +66,10 @@ local function remove_dropped_bomb()
 end
 
 local function create_planted_bomb(x, y, z)
-    bomb_planted_obj = createObject(2891, x, y, z)
+    bomb_planted_obj = createObject(2891, x, y, z - 1)
+    setElementCollisionsEnabled(bomb_planted_obj, false)
+    setElementFrozen(bomb_planted_obj, true)
     bomb_planted_col = createColSphere(x, y, z, 3)
-    attachElements(bomb_planted_obj, bomb_planted_col)
 end
 
 local function remove_planted_bomb()
