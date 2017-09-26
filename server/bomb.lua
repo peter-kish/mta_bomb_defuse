@@ -11,9 +11,14 @@ local bomb_planted_obj = nil
 
 -- LS Gas Station
 --local bomb_site_a = {["x1"] = 1950.7734375, ["y1"] = -1782.8076171875, ["x2"] = 1932.1337890625, ["y2"] = -1762.2880859375, ["z"] = 13.546875}
-local bomb_site_a = {["x1"] = 1901.349609375, ["y1"] = -1790.0146484375, ["x2"] = 1914.0185546875, ["y2"] = -1766.8359375, ["z"] = 13.546875}
+--local bomb_site_a = {["x1"] = 1901.349609375, ["y1"] = -1790.0146484375, ["x2"] = 1914.0185546875, ["y2"] = -1766.8359375, ["z"] = 13.546875}
 -- LS Hospital
-local bomb_site_b = {["x1"] = 2022.2958984375, ["y1"] = -1403.640625, ["x2"] = 2037.2802734375, ["y2"] = -1435.4267578125, ["z"] = 17.181692123413}
+--local bomb_site_b = {["x1"] = 2022.2958984375, ["y1"] = -1403.640625, ["x2"] = 2037.2802734375, ["y2"] = -1435.4267578125, ["z"] = 17.181692123413}
+
+-- Wangs Cars
+local bomb_site_a = {["x1"] = -1943.2919921875, ["y1"] = 254.263671875, ["x2"] = -1958.720703125, ["y2"] = 307.6083984375, ["z"] = 41.047080993652}
+-- Baseball pitch
+local bomb_site_b = {["x1"] = -2335.8671875, ["y1"] = 284.0615234375, ["x2"] = -2309.89453125, ["y2"] = 268.50390625, ["z"] = 35.3203125}
 
 local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z, 41)
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
@@ -235,7 +240,7 @@ local function start_defuse_bomb(player)
                     false,              -- don't update position
                     false,              -- not interruptable
                     false)              -- don't freeze last frame
-                triggerClientEvent(player, "onPlantDefuseStart", player, plant_time)
+                triggerClientEvent(player, "onPlantDefuseStart", player, defuse_time)
             end
         else
             outputChatBox("You have to be near the bomb to defuse!", player)
