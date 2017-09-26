@@ -58,7 +58,7 @@ local function team_add_money(team, money)
 end
 
 local function round_ending_handler(winning_team_name)
-    outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement())
+    outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement(), 0, 200, 0)
     
     local winning_team = getTeamFromName(winning_team_name)
     local losing_team = get_opponent_team(winning_team)
