@@ -40,6 +40,14 @@ local function round_start_handler()
     end
 end
 
+local function round_ending_handler()
+    -- Destroy the bomb radar blip
+    if bomb_blip then
+        destroyElement(bomb_blip)
+        bomb_blip = nil
+    end
+end
+
 local function player_join_handler()
     local blip = createBlipAttachedTo(source)
     setElementVisibleTo(blip, getRootElement(), false)
@@ -57,6 +65,12 @@ local function bomb_dropped_handler(bomb_dropped_obj)
     setElementVisibleToTeam(bomb_blip, getTeamFromName(team_t_name))
 end
 
+local function bomb_planted_handler(bomber, bomb_time, bomb_planted_obj)
+    local x, y, z = getElementPosition(bomb_planted_obj)
+    bomb_blip = createBlip(x, y, z, 0, 2, 255, 255, 0, 255)
+    setElementVisibleToTeam(bomb_blip, getTeamFromName(team_t_name))
+end
+
 local function bomb_picked_up_handler(player)
     if bomb_blip then
         destroyElement(bomb_blip)
@@ -66,7 +80,9 @@ end
 
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
 addEventHandler("onRoundStart", mtacs_element, round_start_handler)
+addEventHandler("onRoundEnding", mtacs_element, round_ending_handler)
 addEventHandler("onPlayerJoin", getRootElement(), player_join_handler)
 addEventHandler("onPlayerQuit", getRootElement(), player_quit_handler)
 addEventHandler("onBombDropped", getRootElement(), bomb_dropped_handler)
+addEventHandler("onBombPlanted", getRootElement(), bomb_planted_handler)
 addEventHandler("onBombPickedUp", getRootElement(), bomb_picked_up_handler)

@@ -138,7 +138,7 @@ local function plant_bomb(x, y, z)
     create_planted_bomb(x, y, z)
     outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
     triggerClientEvent(bomb_carrier, "onPlantDefuseEnd", bomb_carrier)
-    triggerEvent("onBombPlanted", mtacs_element, bomb_carrier, bomb_time)
+    triggerEvent("onBombPlanted", mtacs_element, bomb_carrier, bomb_time, bomb_planted_obj)
     bomb_carrier = nil
     
     bomb_timer = setTimer(bomb_explode, bomb_time, 1)
