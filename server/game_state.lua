@@ -75,9 +75,11 @@ local function bomb_defused_handler(player)
     end_round(team_ct_name)
 end
 
-local function bomb_planted_handler()
+local function bomb_planted_handler(bomber, bomb_time)
     bomb_planted = true
     kill_round_timer()
+    textItemSetColor(round_time_text, 255, 0, 0, 255)
+    round_timer = setTimer(function() end, bomb_time, 1)
 end
 
 local function round_timeout()

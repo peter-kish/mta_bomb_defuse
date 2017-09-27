@@ -28,8 +28,6 @@ local bomb_time = 120000
 local bomb_radius = 10
 local bomb_strength = 10
 local bomb_explosion_delay = 250
-local countdown_timer = nil;
-local countdown = 0
 local plant_timer = nil;
 local plant_time = 3000
 local defuse_timer = nil;
@@ -93,12 +91,6 @@ local function round_start_handler()
         killTimer(bomb_timer)
         bomb_timer = nil
     end
-    if countdown_timer then
-        if isTimer(countdown_timer) then
-            killTimer(countdown_timer)
-        end
-        countdown_timer = nil
-    end
     
     -- Give the bomb to a random terrorist
     local terrorists = getPlayersInTeam(getTeamFromName(team_t_name))
@@ -138,17 +130,6 @@ local function bomb_explode()
     bomb_timer = nil
 end
 
-local function bombCountdown()
-    countdown = countdown - 1
-    outputChatBox("Bomb: " .. countdown, getRootElement(), 255, 0, 0)
-end
-
-local function startBombCountdown(count)
-    countdown = count
-    outputChatBox("Bomb: " .. countdown, getRootElement(), 255, 0, 0)
-    countdown_timer = setTimer(bombCountdown, 1000, count)
-end
-
 local function is_on_bomb_site(x, y)
     return (isInsideRadarArea(radar_area_bomb_site_a, x, y) or isInsideRadarArea(radar_area_bomb_site_b, x, y))
 end
@@ -157,14 +138,10 @@ local function plant_bomb(x, y, z)
     create_planted_bomb(x, y, z)
     outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
     triggerClientEvent(bomb_carrier, "onPlantDefuseEnd", bomb_carrier)
+    triggerEvent("onBombPlanted", mtacs_element, bomb_carrier, bomb_time)
     bomb_carrier = nil
     
     bomb_timer = setTimer(bomb_explode, bomb_time, 1)
-    
-    triggerEvent("onBombPlanted", mtacs_element)
-    if bomb_time >= 10000 then
-        countdown_timer = setTimer(startBombCountdown, bomb_time - 10000, 1, 10)
-    end
 end
 
 local function start_plant_bomb(player)
@@ -217,10 +194,6 @@ local function defuse_bomb(player)
     if isTimer(bomb_timer) then
         killTimer(bomb_timer)
         bomb_timer = nil
-    end
-    if countdown_timer then
-        killTimer(countdown_timer)
-        countdown_timer = nil
     end
     
     triggerEvent("onBombDefused", mtacs_element, player)
