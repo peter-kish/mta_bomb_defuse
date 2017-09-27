@@ -1,10 +1,10 @@
 local vehicles = {
-    {["name"] = "Sanchez",         ["ID"] = 468, ["cost"] = 100,  ["team"] = "all"},
-    {["name"] = "Police",          ["ID"] = 596, ["cost"] = 500,  ["team"] = team_ct_name},
-    {["name"] = "SWAT",            ["ID"] = 601, ["cost"] = 900,  ["team"] = team_ct_name},
-    {["name"] = "SUV",             ["ID"] = 404, ["cost"] = 300,  ["team"] = team_t_name},
-    {["name"] = "Sandking",        ["ID"] = 495, ["cost"] = 900,  ["team"] = team_t_name},
-    {["name"] = "Maverick",        ["ID"] = 487, ["cost"] = 2000, ["team"] = "all"},
+    {["name"] = "Perennial",       ["ID"] = 404, ["cost"] = 100,  ["team"] = "all"},
+    {["name"] = "Police",          ["ID"] = 596, ["cost"] = 400,  ["team"] = team_ct_name},
+    {["name"] = "Sultan",          ["ID"] = 560, ["cost"] = 400,  ["team"] = team_t_name},
+    {["name"] = "Sanchez",         ["ID"] = 468, ["cost"] = 500,  ["team"] = team_t_name},
+    {["name"] = "HPV1000",         ["ID"] = 523, ["cost"] = 500,  ["team"] = team_ct_name},
+    {["name"] = "Maverick",        ["ID"] = 487, ["cost"] = 1200, ["team"] = "all"},
 }
 
 function get_vehicle_info(vehicle_name)
