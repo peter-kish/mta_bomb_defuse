@@ -3,7 +3,7 @@ local bomb_blip = nil
 local function setElementVisibleToTeam(element, team)
     setElementVisibleTo(element, getRootElement(), false)
     for i,player in ipairs(getPlayersInTeam(team)) do
-        setElementVisibleTo(element, team, true)
+        setElementVisibleTo(element, player, true)
     end
 end
 
