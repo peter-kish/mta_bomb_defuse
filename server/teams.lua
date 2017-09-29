@@ -49,24 +49,8 @@ local function respawn_players(team)
     end
 end
 
-local function team_add_money(team, money)
-    local players = getPlayersInTeam(team)
-    for i = 1, #players do
-        setPlayerMoney(players[i], getPlayerMoney(players[i]) + money)
-        triggerClientEvent ("onMoneyChange", source, getPlayerMoney(players[i]))
-    end
-end
-
 local function round_ending_handler(winning_team_name)
     outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement(), 0, 200, 0)
-    
-    local winning_team = getTeamFromName(winning_team_name)
-    local losing_team = get_opponent_team(winning_team)
-    
-    --winning_team.score = winning_team.score + 1
-    
-    team_add_money(losing_team, 400)
-    team_add_money(winning_team, 800)
 end
 
 local function round_start_handler(winning_team_name)    

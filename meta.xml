@@ -19,6 +19,7 @@
     <script src="server/game_state.lua" type="server" />
     <script src="server/bomb.lua" type="server" />
     <script src="server/radar.lua" type="server" />
+    <script src="server/money.lua" type="server" />
     
     <!-- client scripts -->
     <script src="client/gui.lua" type="client" />
