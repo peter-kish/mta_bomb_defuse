@@ -19,11 +19,15 @@ local function round_ending_handler(winning_team_name)
 end
 
 local function bomb_exploded_handler()
-    team_add_money(getTeamFromName(team_t_name), 1000)
+    team_add_money(getTeamFromName(team_t_name), 3500)
 end
 
 local function bomb_defused_handler()
-    team_add_money(getTeamFromName(team_ct_name), 1000)
+    team_add_money(getTeamFromName(team_ct_name), 300)
+end
+
+local function bomb_planted_handler(bomb_carrier)
+    give_player_money(bomb_carrier, 300)
 end
 
 local function ped_wasted_handler(total_ammo, killer, killer_weapon, body_part, stealth)
@@ -35,6 +39,7 @@ end
 addEventHandler("onRoundEnding", mtacs_element, round_ending_handler)
 addEventHandler("onBombExploded", mtacs_element, bomb_exploded_handler)
 addEventHandler("onBombDefused", mtacs_element, bomb_defused_handler)
+addEventHandler("onBombPlanted", mtacs_element, bomb_planted_handler)
 addEventHandler("onPedWasted", getRootElement(), ped_wasted_handler)
 
 
