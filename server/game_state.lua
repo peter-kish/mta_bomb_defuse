@@ -37,12 +37,12 @@ local function fade_everyone_to_black()
     end
 end
 
-local function end_round(winning_team_name)
+local function end_round(winning_team_name, reason)
     if game_state == "round_running" or game_state == "limbo" then
         game_state = "round_ending"
         kill_round_timer()
         setTimer(fade_everyone_to_black, ending_state_time - 1000, 1)
-        triggerEvent("onRoundEnding", mtacs_element, winning_team_name)
+        triggerEvent("onRoundEnding", mtacs_element, winning_team_name, reason)
         setTimer(trigger_round_start, ending_state_time, 1, winning_team_name)
     end
 end
@@ -52,14 +52,14 @@ local function player_wasted_handler()
     local alive_t_count = get_team_alive_count(getTeamFromName(team_t_name))
 
     if alive_ct_count == 0 then
-        end_round(team_t_name)
+        end_round(team_t_name, "t_enemies_killed")
     elseif (alive_t_count == 0) and (bomb_planted == false) then
-        end_round(team_ct_name)
+        end_round(team_ct_name, "ct_enemies_killed")
     end
     if alive_ct_count == 0 then
-        end_round(team_t_name)
+        end_round(team_t_name, "t_enemies_killed")
     elseif (alive_t_count == 0) and (bomb_planted == false) then
-        end_round(team_ct_name)
+        end_round(team_ct_name, "ct_enemies_killed")
     end
 end
 
@@ -68,11 +68,11 @@ local function team_chosen_handler(team_name)
 end
 
 local function bomb_exploded_handler()
-    end_round(team_t_name)
+    end_round(team_t_name, "bomb_detonated")
 end
 
 local function bomb_defused_handler(player)
-    end_round(team_ct_name)
+    end_round(team_ct_name, "bomb_defused")
 end
 
 local function bomb_planted_handler(bomber, bomb_time)
@@ -84,7 +84,8 @@ end
 
 local function round_timeout()
     outputChatBox("Round time is up!", getRootElement(), 255, 0, 255)
-    end_round(team_ct_name)
+    end_round(team_ct_name, "round_timeout")
+    triggerEvent("onRoundTimeout", mtacs_element)
 end
 
 local function round_time_warning()
