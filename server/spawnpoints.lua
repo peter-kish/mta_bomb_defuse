@@ -76,6 +76,20 @@ function spawn_player_for_team(player, team_name)
     triggerEvent("onSpawn", player)
 end
 
+function respawn_players_for_team(team_name)
+    local players = getPlayersInTeam(getTeamFromName(team_name))
+    for i = 1, #players do
+        local spawn_point = get_spawn_point(team_name)
+        if isPedDead(players[i]) then
+            spawn_player_for_team(players[i], team_name)
+        else
+            local weapon_status = get_player_weapon_status(players[i])
+            spawn_player_for_team(players[i], team_name)
+            set_player_weapon_status(players[i], weapon_status)
+        end
+    end
+end
+
 function is_player_in_buy_zone(player)
     team_name = getTeamName(getPlayerTeam(player))
     player_x, player_y, player_z = getElementPosition(player)

@@ -65,6 +65,16 @@ end
 
 local function team_chosen_handler(team_name)
     textDisplayAddObserver(round_time_display, source)
+    
+    local n_t = countPlayersInTeam(getTeamFromName(team_t_name))
+    local n_ct = countPlayersInTeam(getTeamFromName(team_ct_name))
+    
+    outputChatBox("SERVER: Player " .. getPlayerName(source) .. " joined " .. team_name, source)
+    spawn_player_for_team(source, team_name)
+    
+    if n_t == 0 and n_ct == 0 then
+        triggerEvent("onRoundStart", mtacs_element)
+    end
 end
 
 local function bomb_exploded_handler()
@@ -116,6 +126,13 @@ end
 local function round_start_handler()
     bomb_planted = false
     start_round_timer()
+    
+    respawn_players_for_team(team_ct_name)
+    respawn_players_for_team(team_t_name)
+end
+
+local function round_ending_handler(winning_team_name)
+    outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement(), 0, 200, 0)
 end
 
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
@@ -124,3 +141,4 @@ addEventHandler("onBombExploded", mtacs_element, bomb_exploded_handler)
 addEventHandler("onBombDefused", mtacs_element, bomb_defused_handler)
 addEventHandler("onBombPlanted", mtacs_element, bomb_planted_handler)
 addEventHandler("onRoundStart", mtacs_element, round_start_handler)
+addEventHandler("onRoundEnding", mtacs_element, round_ending_handler)
