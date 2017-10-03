@@ -85,7 +85,6 @@ local function round_start_handler()
     -- Clean up the bomb elements
     remove_dropped_bomb()
     remove_planted_bomb()
-    bomb_carrier = nil
     -- Kill the timer, just in case
     if isTimer(bomb_timer) then
         killTimer(bomb_timer)
@@ -99,6 +98,10 @@ local function round_start_handler()
         bomb_carrier = terrorists[random_player_index]
         outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
     end
+end
+
+local function round_ending_handler()
+    bomb_carrier = nil
 end
 
 local function random_explosion(x, y, z, radius)
@@ -275,6 +278,18 @@ local function player_wasted_handler()
     end
 end
 
+local function player_spawn_handler()
+    local team = getPlayerTeam(source)
+    if getTeamName(team) == team_t_name and countPlayersInTeam(team) == 1 then
+        -- The player joined T and is the only player in the team
+        if (bomb_carrier == nil) and (bomb_dropped_obj == nil) and (bomb_planted_obj == nil) then
+            -- The bomb is not owned by anyone, is not dropped somewhere on the map and is not planted
+            bomb_carrier = source
+            outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
+        end
+    end
+end
+
 local function col_shape_handler(player, dimension)
     if (source == bomb_dropped_col) and (getElementType(player) == "player") then
         if (getTeamName(getPlayerTeam(player)) == team_t_name) and (not isPedDead(player)) then
@@ -302,8 +317,10 @@ local function quit_handler()
     end
 end
 
-addEventHandler("onRoundStart", mtacs_element, round_start_handler )
+addEventHandler("onRoundStart", mtacs_element, round_start_handler)
+addEventHandler("onRoundEnding", mtacs_element, round_ending_handler)
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
+addEventHandler("onPlayerSpawn", getRootElement(), player_spawn_handler)
 addEventHandler("onColShapeHit", getRootElement(), col_shape_handler)
 addEventHandler("onPlayerJoin", getRootElement(), join_handler)
 addEventHandler("onPlayerQuit", getRootElement(), quit_handler)

@@ -1,7 +1,7 @@
 local ending_state_time = 5000;
 local round_number = 0
 local bomb_planted = false
-local game_state = "limbo" -- limbo/round_running/round_ending
+local game_state = "round_running" -- round_running/round_ending
 
 -- Round time
 local round_timer = nil
@@ -38,7 +38,7 @@ local function fade_everyone_to_black()
 end
 
 local function end_round(winning_team_name, reason)
-    if game_state == "round_running" or game_state == "limbo" then
+    if game_state == "round_running" then
         game_state = "round_ending"
         kill_round_timer()
         setTimer(fade_everyone_to_black, ending_state_time - 1000, 1)
@@ -48,18 +48,16 @@ local function end_round(winning_team_name, reason)
 end
 
 local function player_wasted_handler()
-    local alive_ct_count = get_team_alive_count(getTeamFromName(team_ct_name))
-    local alive_t_count = get_team_alive_count(getTeamFromName(team_t_name))
+    local team = getPlayerTeam(source)
+    local team_name = getTeamName(team)
+    local teammates_left = get_team_alive_count(team)
 
-    if alive_ct_count == 0 then
-        end_round(team_t_name, "t_enemies_killed")
-    elseif (alive_t_count == 0) and (bomb_planted == false) then
-        end_round(team_ct_name, "ct_enemies_killed")
-    end
-    if alive_ct_count == 0 then
-        end_round(team_t_name, "t_enemies_killed")
-    elseif (alive_t_count == 0) and (bomb_planted == false) then
-        end_round(team_ct_name, "ct_enemies_killed")
+    if teammates_left == 0 then
+        if team_name == team_t_name then
+            end_round(team_ct_name, "ct_enemies_killed")
+        elseif (team_name == team_ct_name) and (bomb_planted == false) then
+            end_round(team_t_name, "t_enemies_killed")
+        end
     end
 end
 
@@ -70,10 +68,12 @@ local function team_chosen_handler(team_name)
     local n_ct = countPlayersInTeam(getTeamFromName(team_ct_name))
     
     outputChatBox("SERVER: Player " .. getPlayerName(source) .. " joined " .. team_name, source)
-    spawn_player_for_team(source, team_name)
+    setPlayerTeam(source, getTeamFromName(team_name))
     
     if n_t == 0 and n_ct == 0 then
         triggerEvent("onRoundStart", mtacs_element)
+    else
+        spawn_player_for_team(source, team_name)
     end
 end
 
@@ -131,8 +131,12 @@ local function round_start_handler()
     respawn_players_for_team(team_t_name)
 end
 
-local function round_ending_handler(winning_team_name)
-    outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement(), 0, 200, 0)
+local function round_ending_handler(winning_team_name, reason)
+    if reason == "round_restart" then
+        outputChatBox("SERVER: Round will restart.", getRootElement(), 0, 200, 0)
+    else
+        outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement(), 0, 200, 0)
+    end
 end
 
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
