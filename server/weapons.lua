@@ -87,5 +87,19 @@ function set_player_weapon_status(player, weapon_status)
     end
 end
 
+function set_weapon_properties()
+    -- AK47
+    setWeaponProperty("30", "pro", "damage", 35)
+    setWeaponProperty("30", "pro", "accuracy", 0.68)
+    setWeaponProperty("30", "pro", "maximum_clip_ammo", 30)
+    setWeaponProperty("30", "pro", "weapon_range", 100)
+    -- M4
+    setWeaponProperty("31", "pro", "damage", 30)
+    setWeaponProperty("31", "pro", "accuracy", 0.8)
+    setWeaponProperty("31", "pro", "maximum_clip_ammo", 30)
+    setWeaponProperty("31", "pro", "weapon_range", 100)
+end
+
 addEventHandler("onSpawn", getRootElement(), give_knife)
-addEventHandler("onWeaponBuy", getRootElement(), weapon_buy_handler )
+addEventHandler("onWeaponBuy", getRootElement(), weapon_buy_handler)
+addEventHandler ( "onPlayerJoin", getRootElement(), set_weapon_properties)
