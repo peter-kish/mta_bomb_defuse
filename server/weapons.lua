@@ -100,6 +100,6 @@ function set_weapon_properties()
     setWeaponProperty("31", "pro", "weapon_range", 100)
 end
 
-addEventHandler("onSpawn", getRootElement(), give_knife)
+addEventHandler("onPlayerSpawn", getRootElement(), give_knife)
 addEventHandler("onWeaponBuy", getRootElement(), weapon_buy_handler)
 addEventHandler ( "onPlayerJoin", getRootElement(), set_weapon_properties)

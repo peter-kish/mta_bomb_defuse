@@ -73,7 +73,6 @@ function spawn_player_for_team(player, team_name)
     
     setPlayerHudComponentVisible(player, "clock", false)
     set_player_model(player, team_name)
-    triggerEvent("onSpawn", player)
 end
 
 function respawn_players_for_team(team_name)
