@@ -30,12 +30,14 @@ local function round_start_handler()
     -- Set the team radar blips visibility
     for i,player in ipairs(getElementsByType("player")) do
         local blip = get_player_blip(player)
-        setElementVisibleToTeam(blip, getPlayerTeam(player))
-        local player_team_name = getTeamName(getPlayerTeam(player))
-        if player_team_name == team_t_name then
-            setBlipColor(blip, 255, 0, 0, 255)
-        elseif player_team_name == team_ct_name then
-            setBlipColor(blip, 0, 0, 255, 255)
+        if blip then
+            setElementVisibleToTeam(blip, getPlayerTeam(player))
+            local player_team_name = getTeamName(getPlayerTeam(player))
+            if player_team_name == team_t_name then
+                setBlipColor(blip, 255, 0, 0, 255)
+            elseif player_team_name == team_ct_name then
+                setBlipColor(blip, 0, 0, 255, 255)
+            end
         end
     end
 end
@@ -86,3 +88,4 @@ addEventHandler("onPlayerQuit", getRootElement(), player_quit_handler)
 addEventHandler("onBombDropped", getRootElement(), bomb_dropped_handler)
 addEventHandler("onBombPlanted", getRootElement(), bomb_planted_handler)
 addEventHandler("onBombPickedUp", getRootElement(), bomb_picked_up_handler)
+
