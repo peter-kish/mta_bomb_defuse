@@ -89,15 +89,41 @@ end
 
 function set_weapon_properties()
     -- AK47
-    setWeaponProperty("30", "pro", "damage", 35)
+    setWeaponProperty("30", "pro", "damage", 36)
     setWeaponProperty("30", "pro", "accuracy", 0.68)
     setWeaponProperty("30", "pro", "maximum_clip_ammo", 30)
     setWeaponProperty("30", "pro", "weapon_range", 100)
     -- M4
     setWeaponProperty("31", "pro", "damage", 30)
-    setWeaponProperty("31", "pro", "accuracy", 0.8)
+    setWeaponProperty("31", "pro", "accuracy", 0.82)
     setWeaponProperty("31", "pro", "maximum_clip_ammo", 30)
     setWeaponProperty("31", "pro", "weapon_range", 100)
+    
+    -- SniperRifle
+    setWeaponProperty("34", "pro", "weapon_range", 200)
+
+    -- SPAZ12 Shotgun
+    setWeaponProperty("27", "pro", "damage", 14)
+    setWeaponProperty("27", "pro", "accuracy", 1.2)
+    setWeaponProperty("27", "pro", "maximum_clip_ammo", 8)
+    setWeaponProperty("27", "pro", "weapon_range", 50)
+    setWeaponProperty("27", "pro", "target_range", 50)
+
+    -- Shotgun
+    setWeaponProperty("25", "pro", "damage", 12)
+    setWeaponProperty("25", "pro", "accuracy", 1.2)
+    setWeaponProperty("25", "pro", "weapon_range", 50)
+    setWeaponProperty("25", "pro", "target_range", 50)
+
+    -- UZI
+    setWeaponProperty("28", "std", "weapon_range", 75)
+    setWeaponProperty("28", "std", "target_range", 75)
+    setWeaponProperty("28", "std", "damage", 18)
+    setWeaponProperty("28", "std", "accuracy", 0.7)
+    setWeaponProperty("28", "std", "maximum_clip_ammo", 25)
+
+    -- RPG
+    setWeaponProperty("35", "pro", "weapon_range", 80)
 end
 
 addEventHandler("onPlayerSpawn", getRootElement(), give_knife)
