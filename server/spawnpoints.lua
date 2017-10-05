@@ -23,6 +23,13 @@ local spawn_area_ct = {["x1"] = -2420.09375, ["y1"] = 743.609375, ["x2"] = -2473
 -- SF Highway
 local spawn_area_t = {["x1"] = -1962.8759765625, ["y1"] = -385.03515625, ["x2"] = -1986.375, ["y2"] = -357.6708984375, ["z"] = 25.7109375}
 
+-- Lonely McDonalds
+--local spawn_area_t = {["x1"] = -1929.3564453125, ["y1"] = 2360.2529296875, ["x2"] = -1930.7744140625, ["y2"] = 2408.2587890625, ["z"] = 50.124378204346}
+-- Abandoned Airfield
+--local spawn_area_t = {["x1"] = 425.6201171875, ["y1"] = 2515.4228515625, ["x2"] = 381.9150390625, ["y2"] = 2480.677734375, ["z"] = 16.484375}
+-- Desert Mountain Road
+--local spawn_area_ct = {["x1"] = -683.5078125, ["y1"] = 2520.646484375, ["x2"] = -645.146484375, ["y2"] = 2470.4560546875, ["z"] = 77.944122314453}
+
 local radar_area_t = createRadarArea(math.min(spawn_area_t.x1, spawn_area_t.x2),
     math.min(spawn_area_t.y1, spawn_area_t.y2),
     math.abs(spawn_area_t.x1 - spawn_area_t.x2),

@@ -20,6 +20,13 @@ local bomb_site_a = {["x1"] = -1943.2919921875, ["y1"] = 254.263671875, ["x2"] =
 -- Baseball pitch
 local bomb_site_b = {["x1"] = -2335.8671875, ["y1"] = 284.0615234375, ["x2"] = -2309.89453125, ["y2"] = 268.50390625, ["z"] = 35.3203125}
 
+-- Ruins
+--local bomb_site_a = {["x1"] = -1296.146484375, ["y1"] = 2500.080078125, ["x2"] = -1340.5283203125, ["y2"] = 2522.4736328125, ["z"] = 87.046875}
+-- Desert Chicken
+--local bomb_site_a = {["x1"] = -245.7060546875, ["y1"] = 2648.30859375, ["x2"] = -226.107421875, ["y2"] = 2676.8955078125, ["z"] = 62.811405181885}
+-- Ghost Town
+--local bomb_site_b = {["x1"] = -376.8623046875, ["y1"] = 2217.90234375, ["x2"] = -418.7978515625, ["y2"] = 2244.396484375, ["z"] = 42.4296875}
+
 local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z, 41)
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
 
