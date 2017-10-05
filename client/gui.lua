@@ -111,8 +111,8 @@ local function refresh_weapon_buttons(money)
     end
 end
 
-local function show_buy_dialog()
-    --outputChatBox("show_buy_dialog", client)
+local function toggle_buy_dialog()
+    --outputChatBox("toggle_buy_dialog", client)
     local player_team = getPlayerTeam(localPlayer)
     if (player_team) and (not isPedDead(localPlayer)) then
         toggle_dialog(gui_wdw_buy)
@@ -123,6 +123,11 @@ end
 local function show_team_dialog()
     --outputChatBox("show_team_dialog", client)
     open_dialog(gui_wdw_team)
+end
+
+local function toggle_team_dialog()
+    --outputChatBox("toggle_team_dialog", client)
+    toggle_dialog(gui_wdw_team)
 end
 
 local function create_choose_team_dialog()
@@ -212,7 +217,8 @@ end
 
 local function started_resource(startedRes )
     --outputChatBox("startedRes", client)
-    bindKey("b", "down", show_buy_dialog)
+    bindKey("b", "down", toggle_buy_dialog)
+    bindKey("F5", "down", toggle_team_dialog)
     init_gui()
     show_team_dialog()
 end

@@ -53,15 +53,30 @@ local function player_wasted_handler()
     local teammates_left = get_team_alive_count(team)
 
     if teammates_left == 0 then
-        if team_name == team_t_name then
+        if team_name == team_t_name and (bomb_planted == false) then
             end_round(team_ct_name, "ct_enemies_killed")
-        elseif (team_name == team_ct_name) and (bomb_planted == false) then
+        elseif (team_name == team_ct_name) then
             end_round(team_t_name, "t_enemies_killed")
         end
     end
 end
 
 local function team_chosen_handler(team_name)
+    local old_team = getPlayerTeam(source)
+    
+    if old_team then
+        -- Team switch
+        if getTeamName(old_team) == team_name then
+            -- Team switch to the same team... do nothing
+            return
+        else
+            -- Team switch to the other team
+            setPlayerTeam(source, getTeamFromName(team_name))
+            killPed(source)
+            return
+        end
+    end
+
     textDisplayAddObserver(round_time_display, source)
     
     local n_t = countPlayersInTeam(getTeamFromName(team_t_name))
