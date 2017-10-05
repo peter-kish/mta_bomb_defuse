@@ -88,6 +88,22 @@ local function remove_planted_bomb()
     end
 end
 
+local function get_random_terrorist()
+    local terrorists = getPlayersInTeam(getTeamFromName(team_t_name))
+    if #terrorists > 0 then
+        local random_player_index = math.random(1, #terrorists)
+        return terrorists[random_player_index]
+    end
+    return false
+end
+
+local function give_bomb_to(player)
+    if player then
+        bomb_carrier = player
+        outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
+    end
+end
+
 local function round_start_handler()
     -- Clean up the bomb elements
     remove_dropped_bomb()
@@ -99,11 +115,8 @@ local function round_start_handler()
     end
     
     -- Give the bomb to a random terrorist
-    local terrorists = getPlayersInTeam(getTeamFromName(team_t_name))
-    if (#terrorists > 0) and (bomb_carrier == nil) then
-        local random_player_index = math.random(1, #terrorists)
-        bomb_carrier = terrorists[random_player_index]
-        outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
+    if bomb_carrier == nil then
+        give_bomb_to(get_random_terrorist())
     end
 end
 
@@ -291,8 +304,7 @@ local function player_spawn_handler()
         -- The player joined T and is the only player in the team
         if (bomb_carrier == nil) and (bomb_dropped_obj == nil) and (bomb_planted_obj == nil) then
             -- The bomb is not owned by anyone, is not dropped somewhere on the map and is not planted
-            bomb_carrier = source
-            outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
+            give_bomb_to(source)
         end
     end
 end
@@ -300,10 +312,10 @@ end
 local function col_shape_handler(player, dimension)
     if (source == bomb_dropped_col) and (getElementType(player) == "player") then
         if (getTeamName(getPlayerTeam(player)) == team_t_name) and (not isPedDead(player)) then
-            bomb_carrier = player
             for i, terrorist in ipairs(getPlayersInTeam(getTeamFromName(team_t_name))) do
                 outputChatBox(getPlayerName(player) .. " picked up the bomb", terrorist, 255, 0 ,0)
             end
+            give_bomb_to(player)
             remove_dropped_bomb()
             triggerEvent("onBombPickedUp", player)
         end
@@ -318,6 +330,16 @@ end
 local function quit_handler()
     if source == bomb_carrier then
         cancel_plant_bomb(bomb_carrier)
+        
+        -- Drop the bomb
+        for i,player in ipairs(getPlayersInTeam(getTeamFromName(team_t_name))) do
+            outputChatBox(getPlayerName(bomb_carrier) .. " has dropped the bomb!", player, 255, 0 ,0)
+        end
+        bomb_carrier = nil
+
+        local player_x, player_y, player_z = getElementPosition(source)
+        create_dropped_bomb(player_x, player_y, player_z)
+        triggerEvent("onBombDropped", source, bomb_dropped_obj)
     end
     if source == defuser then
         cancel_defuse_bomb(defuser)
