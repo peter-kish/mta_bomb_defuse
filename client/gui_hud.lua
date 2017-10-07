@@ -1,12 +1,11 @@
 addEvent("onTimerStart", true)
 
 local screen_width, screen_height = guiGetScreenSize()
-local timer_str = "00:00"
 local timer_color = tocolor(255,255,255,255)
 local timer_timer = nil
-local timer_update_resolution_ms = 100
 
-local function update_timer_str()
+local function get_timer_str()
+    local timer_str = "00:00"
     if isTimer(timer_timer) then
         local ms_remaining = getTimerDetails(timer_timer)
         local sec_remaining = math.floor(ms_remaining / 1000)
@@ -27,14 +26,9 @@ local function update_timer_str()
         end
         
         timer_str = min_str .. ":" .. sec_str
-        
-        setTimer(update_timer_str, timer_update_resolution_ms, 1)
-        
-        return true
-    else
-        timer_str = "00:00"
-        return false
     end
+    
+    return timer_str
 end
 
 local function set_timer_countdown(time_ms, color_r, color_g, color_b, color_a)
@@ -45,11 +39,10 @@ local function set_timer_countdown(time_ms, color_r, color_g, color_b, color_a)
         killTimer(timer_timer)
     end
     timer_timer = setTimer(function() killTimer(timer_timer) end, time_ms, 1)
-    update_timer_str()
 end
 
 local function draw_timer()
-    dxDrawText(timer_str, 0, screen_height - 10, screen_width, screen_height, timer_color, 2, "pricedown", "center", "bottom")
+    dxDrawText(get_timer_str(), 0, screen_height - 10, screen_width, screen_height, timer_color, 2, "pricedown", "center", "bottom")
 end
 
 function handle_the_rendering()
