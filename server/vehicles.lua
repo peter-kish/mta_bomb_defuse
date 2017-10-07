@@ -1,3 +1,5 @@
+local max_vehicles_per_round = 2
+
 local function vehicle_buy_handler(vehicle_name)
     if is_player_in_buy_zone(source) == false then
         outputChatBox("SERVER: Can't buy outside the buy zone!", source)
@@ -6,6 +8,11 @@ local function vehicle_buy_handler(vehicle_name)
     
     if isPedDead(source) then
         outputChatBox("SERVER: Can't buy before respawn!", source)
+        return
+    end
+    
+    if getElementData(source, "vehicles_bought") >= max_vehicles_per_round then
+        outputChatBox("SERVER: Can't buy more than " .. max_vehicles_per_round .. " vehicles per round.", source)
         return
     end
     
@@ -19,6 +26,9 @@ local function vehicle_buy_handler(vehicle_name)
             
             setPlayerMoney(source, getPlayerMoney(source) - vehicle_info.cost)
             triggerClientEvent ("onMoneyChange", source, getPlayerMoney(source))
+            
+            -- Increase the vehicle counter
+            setElementData(source, "vehicles_bought", getElementData(source, "vehicles_bought") + 1);
         else
             error("Not enough money!");
         end
@@ -30,6 +40,11 @@ local function round_start_handler(winning_team_name)
     local vehicles = getElementsByType("vehicle")
     for i,vehicle in ipairs(vehicles) do
         destroyElement(vehicle)
+    end
+    
+    -- Reset the vehicle counters
+    for i,player in ipairs(getElementsByType("player")) do
+        setElementData(player, "vehicles_bought", 0);
     end
 end
 
