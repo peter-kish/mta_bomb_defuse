@@ -7,7 +7,7 @@ local bomb_planted_col = nil
 local bomb_planted_obj = nil
 
 local bomb_site_a = get_current_map().bomb_site_a
-local bomb_site_b = get_current_map().bomb_site_c
+local bomb_site_b = get_current_map().bomb_site_b
 
 local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z, 41)
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
@@ -330,7 +330,7 @@ end
 
 local function new_map_handler()
     bomb_site_a = get_current_map().bomb_site_a
-    bomb_site_b = get_current_map().bomb_site_c
+    bomb_site_b = get_current_map().bomb_site_b
 
     destroyElement(bomb_site_a_blip)
     destroyElement(bomb_site_b_blip)
