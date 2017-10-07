@@ -12,6 +12,8 @@ local bomb_site_b = get_current_map().bomb_site_b
 local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z, 41)
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
 
+exports.scoreboard:addScoreboardColumn("bomb")
+
 local radar_area_bomb_site_a = createRadarArea(math.min(bomb_site_a.x1, bomb_site_a.x2),
     math.min(bomb_site_a.y1, bomb_site_a.y2),
     math.abs(bomb_site_a.x1 - bomb_site_a.x2),
@@ -82,7 +84,15 @@ end
 local function give_bomb_to(player)
     if player then
         bomb_carrier = player
+        setElementData(player, "bomb", "BOMB")
         outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
+    end
+end
+
+local function take_bomb()
+    if bomb_carrier then
+        setElementData(bomb_carrier, "bomb", "")
+        bomb_carrier = nil
     end
 end
 
@@ -103,7 +113,7 @@ local function round_start_handler()
 end
 
 local function round_ending_handler()
-    bomb_carrier = nil
+    take_bomb()
 end
 
 local function random_explosion(x, y, z, radius)
@@ -144,7 +154,7 @@ local function plant_bomb(x, y, z)
     outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
     triggerClientEvent(bomb_carrier, "onPlantDefuseEnd", bomb_carrier)
     triggerEvent("onBombPlanted", mtacs_element, bomb_carrier, bomb_time, bomb_planted_obj)
-    bomb_carrier = nil
+    take_bomb()
     
     bomb_timer = setTimer(bomb_explode, bomb_time, 1)
 end
@@ -269,7 +279,7 @@ local function player_wasted_handler()
         for i,player in ipairs(getPlayersInTeam(getTeamFromName(team_t_name))) do
             outputChatBox(getPlayerName(bomb_carrier) .. " has dropped the bomb!", player, 255, 0 ,0)
         end
-        bomb_carrier = nil
+        take_bomb()
 
         local player_x, player_y, player_z = getElementPosition(source)
         create_dropped_bomb(player_x, player_y, player_z)
@@ -307,6 +317,7 @@ end
 local function join_handler()
     bindKey(source, "x", "down", function (key_presser) start_plant_defuse_bomb(key_presser) end)
     bindKey(source, "x", "up", function (key_presser) cancel_plant_defuse_bomb(key_presser) end)
+    setElementData(source, "bomb", "")
 end
 
 local function quit_handler()
@@ -317,7 +328,7 @@ local function quit_handler()
         for i,player in ipairs(getPlayersInTeam(getTeamFromName(team_t_name))) do
             outputChatBox(getPlayerName(bomb_carrier) .. " has dropped the bomb!", player, 255, 0 ,0)
         end
-        bomb_carrier = nil
+        take_bomb()
 
         local player_x, player_y, player_z = getElementPosition(source)
         create_dropped_bomb(player_x, player_y, player_z)
