@@ -4,31 +4,8 @@ function get_random_element(array)
     return array[math.random(#array)]
 end
 
--- Test locations
---local spawn_area_t = {["x1"] = 2007.099609375, ["y1"] = -1744.5419921875, ["x2"] = 1993.56640625, ["y2"] = -1757.9384765625, ["z"] = 13.546875}
---local spawn_area_ct = {["x1"] = 2089.3388671875, ["y1"] = -1621.2353515625, ["x2"] = 2074.244140625, ["y2"] = -1606.11328125, ["z"] = 13.546875}
-
--- Grove
---local spawn_area_t = {["x1"] = 2468.8759765625, ["y1"] = -1654.6201171875, ["x2"] = 2505.0283203125, ["y2"] = -1678.93359375, ["z"] = 13.379979133606}
--- LSPD
---local spawn_area_ct = {["x1"] = 1551.220703125, ["y1"] = -1604.3779296875, ["x2"] = 1604.466796875, ["y2"] = -1631.052734375, ["z"] = 13.513515472412}
-
-
--- Chinatown
---local spawn_area_ct = {["x1"] = -2130.2783203125, ["y1"] = 624.5693359375, ["x2"] = -2152.8251953125, ["y2"] = 651.7109375, ["z"] = 52.3671875}
--- Supa Save
-local spawn_area_ct = {["x1"] = -2420.09375, ["y1"] = 743.609375, ["x2"] = -2473.2666015625, ["y2"] = 723.6396484375, ["z"] = 35.015625}
--- SF Stadium
---local spawn_area_t = {["x1"] = -1994.1611328125, ["y1"] = -507.376953125, ["x2"] = -2039.8544921875, ["y2"] = -536.4833984375, ["z"] = 35.3359375}
--- SF Highway
-local spawn_area_t = {["x1"] = -1962.8759765625, ["y1"] = -385.03515625, ["x2"] = -1986.375, ["y2"] = -357.6708984375, ["z"] = 25.7109375}
-
--- Lonely McDonalds
---local spawn_area_t = {["x1"] = -1929.3564453125, ["y1"] = 2360.2529296875, ["x2"] = -1930.7744140625, ["y2"] = 2408.2587890625, ["z"] = 50.124378204346}
--- Abandoned Airfield
---local spawn_area_t = {["x1"] = 425.6201171875, ["y1"] = 2515.4228515625, ["x2"] = 381.9150390625, ["y2"] = 2480.677734375, ["z"] = 16.484375}
--- Desert Mountain Road
---local spawn_area_ct = {["x1"] = -683.5078125, ["y1"] = 2520.646484375, ["x2"] = -645.146484375, ["y2"] = 2470.4560546875, ["z"] = 77.944122314453}
+local spawn_area_ct = get_current_map().spawn_area_ct
+local spawn_area_t = get_current_map().spawn_area_t
 
 local radar_area_t = createRadarArea(math.min(spawn_area_t.x1, spawn_area_t.x2),
     math.min(spawn_area_t.y1, spawn_area_t.y2),
@@ -108,3 +85,24 @@ function is_player_in_buy_zone(player)
     
     return false
 end
+
+local function new_map_handler()
+    spawn_area_ct = get_current_map().spawn_area_ct
+    spawn_area_t = get_current_map().spawn_area_t
+    
+    destroyElement(radar_area_t)
+    destroyElement(radar_area_ct)
+    radar_area_t = createRadarArea(math.min(spawn_area_t.x1, spawn_area_t.x2),
+        math.min(spawn_area_t.y1, spawn_area_t.y2),
+        math.abs(spawn_area_t.x1 - spawn_area_t.x2),
+        math.abs(spawn_area_t.y1 - spawn_area_t.y2),
+        255, 0, 0, 128)
+    
+    radar_area_ct = createRadarArea(math.min(spawn_area_ct.x1, spawn_area_ct.x2),
+        math.min(spawn_area_ct.y1, spawn_area_ct.y2),
+        math.abs(spawn_area_ct.x1 - spawn_area_ct.x2),
+        math.abs(spawn_area_ct.y1 - spawn_area_ct.y2),
+        0, 0, 255, 128)
+end
+
+addEventHandler("onNewMap", mtacs_element, new_map_handler)

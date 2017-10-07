@@ -10,6 +10,7 @@
     
     <!-- server scripts -->
     <script src="server/server_events.lua" type="server" />
+    <script src="server/maps.lua" type="server" />
     <script src="server/csmta.lua" type="server" />
     <script src="server/spawnpoints.lua" type="server" />
     <script src="server/weapons.lua" type="server" />

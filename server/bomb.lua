@@ -6,40 +6,11 @@ local bomb_dropped_obj = nil
 local bomb_planted_col = nil
 local bomb_planted_obj = nil
 
--- Test site
---local bomb_site_a = {["x1"] = 2036.966796875, ["y1"] = -1682.4130859375, ["x2"] = 2046.388671875, ["y2"] = -1662.7763671875, ["z"] = 13.546875}
-
--- LS Gas Station
---local bomb_site_a = {["x1"] = 1950.7734375, ["y1"] = -1782.8076171875, ["x2"] = 1932.1337890625, ["y2"] = -1762.2880859375, ["z"] = 13.546875}
---local bomb_site_a = {["x1"] = 1901.349609375, ["y1"] = -1790.0146484375, ["x2"] = 1914.0185546875, ["y2"] = -1766.8359375, ["z"] = 13.546875}
--- LS Hospital
---local bomb_site_b = {["x1"] = 2022.2958984375, ["y1"] = -1403.640625, ["x2"] = 2037.2802734375, ["y2"] = -1435.4267578125, ["z"] = 17.181692123413}
-
--- Wangs Cars
-local bomb_site_a = {["x1"] = -1943.2919921875, ["y1"] = 254.263671875, ["x2"] = -1958.720703125, ["y2"] = 307.6083984375, ["z"] = 41.047080993652}
--- Baseball pitch
-local bomb_site_b = {["x1"] = -2335.8671875, ["y1"] = 284.0615234375, ["x2"] = -2309.89453125, ["y2"] = 268.50390625, ["z"] = 35.3203125}
-
--- Ruins
---local bomb_site_a = {["x1"] = -1296.146484375, ["y1"] = 2500.080078125, ["x2"] = -1340.5283203125, ["y2"] = 2522.4736328125, ["z"] = 87.046875}
--- Desert Chicken
---local bomb_site_a = {["x1"] = -245.7060546875, ["y1"] = 2648.30859375, ["x2"] = -226.107421875, ["y2"] = 2676.8955078125, ["z"] = 62.811405181885}
--- Ghost Town
---local bomb_site_b = {["x1"] = -376.8623046875, ["y1"] = 2217.90234375, ["x2"] = -418.7978515625, ["y2"] = 2244.396484375, ["z"] = 42.4296875}
+local bomb_site_a = get_current_map().bomb_site_a
+local bomb_site_b = get_current_map().bomb_site_c
 
 local bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z, 41)
 local bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
-
-local bomb_timer = nil
-local bomb_time = 120000
-local bomb_radius = 10
-local bomb_strength = 10
-local bomb_explosion_delay = 250
-local plant_timer = nil;
-local plant_time = 3000
-local defuse_timer = nil;
-local defuse_time = 6000
-local defuser = nil
 
 local radar_area_bomb_site_a = createRadarArea(math.min(bomb_site_a.x1, bomb_site_a.x2),
     math.min(bomb_site_a.y1, bomb_site_a.y2),
@@ -51,6 +22,17 @@ local radar_area_bomb_site_b = createRadarArea(math.min(bomb_site_b.x1, bomb_sit
     math.abs(bomb_site_b.x1 - bomb_site_b.x2),
     math.abs(bomb_site_b.y1 - bomb_site_b.y2),
     0, 255, 0, 128)
+    
+local bomb_timer = nil
+local bomb_time = 120000
+local bomb_radius = 10
+local bomb_strength = 10
+local bomb_explosion_delay = 250
+local plant_timer = nil;
+local plant_time = 3000
+local defuse_timer = nil;
+local defuse_time = 6000
+local defuser = nil
 
 local function create_dropped_bomb(x, y, z)
     bomb_dropped_obj = createObject(2891, x, y, z - 1)
@@ -346,6 +328,29 @@ local function quit_handler()
     end
 end
 
+local function new_map_handler()
+    bomb_site_a = get_current_map().bomb_site_a
+    bomb_site_b = get_current_map().bomb_site_c
+
+    destroyElement(bomb_site_a_blip)
+    destroyElement(bomb_site_b_blip)
+    bomb_site_a_blip = createBlip((bomb_site_a.x1 + bomb_site_a.x2) / 2, (bomb_site_a.y1 + bomb_site_a.y2) / 2, bomb_site_a.z, 41)
+    bomb_site_b_blip = createBlip((bomb_site_b.x1 + bomb_site_b.x2) / 2, (bomb_site_b.y1 + bomb_site_b.y2) / 2, bomb_site_b.z, 41)
+
+    destroyElement(radar_area_bomb_site_a)
+    destroyElement(radar_area_bomb_site_b)
+    radar_area_bomb_site_a = createRadarArea(math.min(bomb_site_a.x1, bomb_site_a.x2),
+        math.min(bomb_site_a.y1, bomb_site_a.y2),
+        math.abs(bomb_site_a.x1 - bomb_site_a.x2),
+        math.abs(bomb_site_a.y1 - bomb_site_a.y2),
+        0, 255, 0, 128)
+    radar_area_bomb_site_b = createRadarArea(math.min(bomb_site_b.x1, bomb_site_b.x2),
+        math.min(bomb_site_b.y1, bomb_site_b.y2),
+        math.abs(bomb_site_b.x1 - bomb_site_b.x2),
+        math.abs(bomb_site_b.y1 - bomb_site_b.y2),
+        0, 255, 0, 128)
+end
+
 addEventHandler("onRoundStart", mtacs_element, round_start_handler)
 addEventHandler("onRoundEnding", mtacs_element, round_ending_handler)
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
@@ -353,3 +358,4 @@ addEventHandler("onPlayerSpawn", getRootElement(), player_spawn_handler)
 addEventHandler("onColShapeHit", getRootElement(), col_shape_handler)
 addEventHandler("onPlayerJoin", getRootElement(), join_handler)
 addEventHandler("onPlayerQuit", getRootElement(), quit_handler)
+addEventHandler("onNewMap", getRootElement(), new_map_handler)
