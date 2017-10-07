@@ -21,6 +21,7 @@ local weapons = {
     {["name"] = "Heatseeker",      ["ID"] = 36, ["ammo_per_mag"] = 1,  ["max_ammo"] = 3,   ["cost"] = 400, ["slot"] = "special_slot",   ["team"] = "all"},
     {["name"] = "Granade",         ["ID"] = 16, ["ammo_per_mag"] = 1,  ["max_ammo"] = 10,  ["cost"] = 100, ["slot"] = "special_slot",   ["team"] = "all"},
     {["name"] = "Satchel",         ["ID"] = 39, ["ammo_per_mag"] = 1,  ["max_ammo"] = 10,  ["cost"] = 200, ["slot"] = "special_slot",   ["team"] = "all"},
+    {["name"] = "Molotov",         ["ID"] = 18, ["ammo_per_mag"] = 1,  ["max_ammo"] = 10,  ["cost"] = 100, ["slot"] = "special_slot",   ["team"] = "all"},
 }
 
 function get_weapon_info(weapon_name)
