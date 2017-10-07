@@ -9,9 +9,6 @@ local round_time = 4 * 60 * 1000 -- 4min
 local round_time_warning_time = 30 * 1000 -- 30sec
 local round_time_warning_timer = nil
 local round_time_display = textCreateDisplay()
-local round_time_text = textCreateTextItem("[0:0]", 0.01, 0.5)
-textItemSetScale(round_time_text, 1.5)
-textDisplayAddText(round_time_display, round_time_text)
 
 local function kill_round_timer()
     if isTimer(round_timer) then
@@ -76,8 +73,6 @@ local function team_chosen_handler(team_name)
             return
         end
     end
-
-    textDisplayAddObserver(round_time_display, source)
     
     local n_t = countPlayersInTeam(getTeamFromName(team_t_name))
     local n_ct = countPlayersInTeam(getTeamFromName(team_ct_name))
@@ -103,8 +98,9 @@ end
 local function bomb_planted_handler(bomber, bomb_time)
     bomb_planted = true
     kill_round_timer()
-    textItemSetColor(round_time_text, 255, 0, 0, 255)
     round_timer = setTimer(function() end, bomb_time, 1)
+    
+    triggerClientEvent("onTimerStart", resourceRoot, bomb_time, 255, 0, 0, 255)
 end
 
 local function round_timeout()
@@ -115,27 +111,16 @@ end
 
 local function round_time_warning()
     outputChatBox("Warning! " .. round_time_warning_time / 1000 .. " seconds remaining!", getRootElement(), 255, 0, 255)
-    textItemSetColor(round_time_text, 255, 0, 0, 255)
-end
-
-local function update_round_time_display()
-    if isTimer(round_timer) then
-        local ms_remaining = getTimerDetails(round_timer)
-        local sec_remaining = math.floor(ms_remaining / 1000)
-        local min_remaining = math.floor(sec_remaining / 60)
-
-        textItemSetText(round_time_text, "[" .. min_remaining .. ":" .. (sec_remaining % 60) ..  "]")
-    else
-        textItemSetText(round_time_text, "[0:0]")
-    end
+    
+    triggerClientEvent("onTimerStart", resourceRoot, round_time_warning_time, 255, 0, 0, 255)
 end
 
 local function start_round_timer()
     kill_round_timer()
     round_timer = setTimer(round_timeout, round_time, 1)
     round_time_warning_timer = setTimer(round_time_warning, round_time - round_time_warning_time, 1)
-    setTimer(update_round_time_display, 100, 0)
-    textItemSetColor(round_time_text, 255, 255, 255, 255)
+    
+    triggerClientEvent("onTimerStart", resourceRoot, round_time, 255, 255, 255, 255)
 end
 
 local function round_start_handler()

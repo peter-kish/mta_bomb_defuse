@@ -23,5 +23,6 @@
     <script src="server/money.lua" type="server" />
     
     <!-- client scripts -->
-    <script src="client/gui.lua" type="client" />
+    <script src="client/gui_menus.lua" type="client" />
+    <script src="client/gui_hud.lua" type="client" />
 </meta>
