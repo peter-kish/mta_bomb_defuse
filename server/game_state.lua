@@ -71,8 +71,8 @@ local function team_chosen_handler(team_name)
             return
         else
             -- Team switch to the other team
-            setPlayerTeam(source, getTeamFromName(team_name))
             killPed(source)
+            setPlayerTeam(source, getTeamFromName(team_name))
             return
         end
     end
