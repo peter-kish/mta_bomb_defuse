@@ -286,7 +286,7 @@ local function player_wasted_handler()
         triggerEvent("onBombDropped", source, bomb_dropped_obj)
     end
     if source == defuser then
-        cancel_defuse_bomb(player)
+        cancel_defuse_bomb(defuser)
     end
 end
 
