@@ -45,7 +45,7 @@ local function draw_timer()
     dxDrawText(get_timer_str(), 0, screen_height - 10, screen_width, screen_height, timer_color, 2, "pricedown", "center", "bottom")
 end
 
-local function handle_the_rendering()
+function handle_the_rendering()
     addEventHandler("onClientRender", root, draw_timer) -- keep the text visible with onClientRender.
 end
 
