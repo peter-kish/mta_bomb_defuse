@@ -41,12 +41,13 @@ local function round_start_handler(winning_team_name)
     for i,vehicle in ipairs(vehicles) do
         destroyElement(vehicle)
     end
-    
+end
+
+local function player_spawn_handler()
     -- Reset the vehicle counters
-    for i,player in ipairs(getElementsByType("player")) do
-        setElementData(player, "vehicles_bought", 0);
-    end
+    setElementData(source, "vehicles_bought", 0);
 end
 
 addEventHandler("onVehicleBuy", getRootElement(), vehicle_buy_handler )
 addEventHandler("onRoundStart", mtacs_element, round_start_handler)
+addEventHandler("onPlayerSpawn", getRootElement(), player_spawn_handler)
