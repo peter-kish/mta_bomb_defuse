@@ -26,4 +26,5 @@
     <script src="client/gui_menus.lua" type="client" />
     <script src="client/gui_hud_timer.lua" type="client" />
     <script src="client/gui_hud_progress.lua" type="client" />
+    <script src="client/spectating.lua" type="client" />
 </meta>
