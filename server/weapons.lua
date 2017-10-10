@@ -89,7 +89,7 @@ end
 
 function set_weapon_properties()
     -- AK47
-    setWeaponProperty("30", "pro", "damage", 36)
+    setWeaponProperty("30", "pro", "damage", 33)
     setWeaponProperty("30", "pro", "accuracy", 0.68)
     setWeaponProperty("30", "pro", "maximum_clip_ammo", 30)
     setWeaponProperty("30", "pro", "weapon_range", 100)
