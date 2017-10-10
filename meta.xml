@@ -21,10 +21,10 @@
     <script src="server/bomb.lua" type="server" />
     <script src="server/radar.lua" type="server" />
     <script src="server/money.lua" type="server" />
+    <script src="server/spectating.lua" type="server" />
     
     <!-- client scripts -->
     <script src="client/gui_menus.lua" type="client" />
     <script src="client/gui_hud_timer.lua" type="client" />
     <script src="client/gui_hud_progress.lua" type="client" />
-    <script src="client/spectating.lua" type="client" />
 </meta>
