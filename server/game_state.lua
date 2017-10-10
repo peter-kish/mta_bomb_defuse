@@ -63,27 +63,33 @@ local function team_chosen_handler(team_name)
     
     if old_team then
         -- Team switch
-        if getTeamName(old_team) == team_name then
+        local new_team = getTeamFromName(team_name)
+        if old_team == new_team then
             -- Team switch to the same team... do nothing
             return
         else
-            -- Team switch to the other team
+            -- Team switch to a new team
             killPed(source)
-            setPlayerTeam(source, getTeamFromName(team_name))
+            setPlayerTeam(source, new_team)
+            -- Restart the round if the new team was empty so far
+            if countPlayersInTeam(new_team) == 1 then
+                end_round(team_name, "round_restart")
+            end
             return
         end
-    end
-    
-    local n_t = countPlayersInTeam(getTeamFromName(team_t_name))
-    local n_ct = countPlayersInTeam(getTeamFromName(team_ct_name))
-    
-    outputChatBox("SERVER: Player " .. getPlayerName(source) .. " joined " .. team_name, source)
-    setPlayerTeam(source, getTeamFromName(team_name))
-    
-    if n_t == 0 and n_ct == 0 then
-        triggerEvent("onRoundStart", mtacs_element)
     else
-        spawn_player_for_team(source, team_name)
+        -- Initial team selection
+        local n_t = countPlayersInTeam(getTeamFromName(team_t_name))
+        local n_ct = countPlayersInTeam(getTeamFromName(team_ct_name))
+        
+        outputChatBox("SERVER: Player " .. getPlayerName(source) .. " joined " .. team_name, source)
+        setPlayerTeam(source, getTeamFromName(team_name))
+        
+        if n_t == 0 and n_ct == 0 then
+            triggerEvent("onRoundStart", mtacs_element)
+        else
+            spawn_player_for_team(source, team_name)
+        end
     end
 end
 
