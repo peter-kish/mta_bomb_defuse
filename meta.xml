@@ -27,4 +27,5 @@
     <script src="client/gui_menus.lua" type="client" />
     <script src="client/gui_hud_timer.lua" type="client" />
     <script src="client/gui_hud_progress.lua" type="client" />
+    <script src="client/gui_hud_notifications.lua" type="client" />
 </meta>

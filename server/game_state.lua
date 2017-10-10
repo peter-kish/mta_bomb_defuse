@@ -140,8 +140,10 @@ end
 local function round_ending_handler(winning_team_name, reason)
     if reason == "round_restart" then
         outputChatBox("SERVER: Round will restart.", getRootElement(), 0, 200, 0)
+        triggerClientEvent(getRootElement(), "onNotification", resourceRoot, "Round will restart...", 255, 255, 255, 255)
     else
         outputChatBox("SERVER: Round is over! " .. winning_team_name .. " win!", getRootElement(), 0, 200, 0)
+        triggerClientEvent(getRootElement(), "onNotification", resourceRoot, winning_team_name .. " win!", 255, 255, 0, 255)
     end
 end
 

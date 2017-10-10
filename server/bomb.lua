@@ -86,6 +86,7 @@ local function give_bomb_to(player)
         bomb_carrier = player
         setElementData(player, "bomb", "BOMB")
         outputChatBox("You have the bomb!", bomb_carrier, 255, 0 ,0)
+        triggerClientEvent(bomb_carrier, "onNotification", resourceRoot, "You have the bomb!", 255, 0, 0, 255)
     end
 end
 
@@ -152,6 +153,7 @@ end
 local function plant_bomb(x, y, z)
     create_planted_bomb(x, y, z)
     outputChatBox("The bomb has been planted!", getRootElement(), 255, 0, 0)
+    triggerClientEvent(getRootElement(), "onNotification", resourceRoot, "The bomb has been planted!", 255, 0, 0, 255)
     triggerClientEvent(bomb_carrier, "onPlantDefuseEnd", bomb_carrier)
     triggerEvent("onBombPlanted", mtacs_element, bomb_carrier, bomb_time, bomb_planted_obj)
     take_bomb()
@@ -202,6 +204,7 @@ end
 
 local function defuse_bomb(player)
     outputChatBox("The bomb has defused!", getRootElement(), 255, 0, 0)
+    triggerClientEvent(getRootElement(), "onNotification", resourceRoot, "The bomb has defused!", 255, 255, 255, 255)
     triggerClientEvent(player, "onPlantDefuseEnd", player)
     
     defuser = nil
@@ -278,6 +281,7 @@ local function player_wasted_handler()
         cancel_plant_bomb(bomb_carrier)
         for i,player in ipairs(getPlayersInTeam(getTeamFromName(team_t_name))) do
             outputChatBox(getPlayerName(bomb_carrier) .. " has dropped the bomb!", player, 255, 0 ,0)
+            triggerClientEvent(player, "onNotification", resourceRoot, getPlayerName(bomb_carrier) .. " has dropped the bomb!", 255, 255, 255, 255)
         end
         take_bomb()
 
@@ -306,6 +310,7 @@ local function col_shape_handler(player, dimension)
         if (getTeamName(getPlayerTeam(player)) == team_t_name) and (not isPedDead(player)) then
             for i, terrorist in ipairs(getPlayersInTeam(getTeamFromName(team_t_name))) do
                 outputChatBox(getPlayerName(player) .. " picked up the bomb", terrorist, 255, 0 ,0)
+                triggerClientEvent(player, "onNotification", resourceRoot, getPlayerName(player) .. " picked up the bomb", 255, 255, 255, 255)
             end
             give_bomb_to(player)
             remove_dropped_bomb()
@@ -327,6 +332,7 @@ local function quit_handler()
         -- Drop the bomb
         for i,player in ipairs(getPlayersInTeam(getTeamFromName(team_t_name))) do
             outputChatBox(getPlayerName(bomb_carrier) .. " has dropped the bomb!", player, 255, 0 ,0)
+            triggerClientEvent(player, "onNotification", resourceRoot, getPlayerName(bomb_carrier) .. " has dropped the bomb!", 255, 255, 255, 255)
         end
         take_bomb()
 
