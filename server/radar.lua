@@ -1,5 +1,12 @@
 local bomb_blip = nil
 
+local function destroy_bomb_blip()
+    if isElement(bomb_blip) then
+        destroyElement(bomb_blip)
+        bomb_blip = nil
+    end
+end
+
 local function setElementVisibleToTeam(element, team)
     if not isElement(element) then
         return false
@@ -48,11 +55,7 @@ local function player_spawn_handler()
 end
 
 local function round_ending_handler()
-    -- Destroy the bomb radar blip
-    if isElement(bomb_blip) then
-        destroyElement(bomb_blip)
-        bomb_blip = nil
-    end
+    destroy_bomb_blip()
 end
 
 local function player_quit_handler()
@@ -64,21 +67,20 @@ end
 
 local function bomb_dropped_handler(bomb_dropped_obj)
     local x, y, z = getElementPosition(bomb_dropped_obj)
+    destroy_bomb_blip()
     bomb_blip = createBlip(x, y, z, 0, 2, 255, 255, 0, 255)
     setElementVisibleToTeam(bomb_blip, getTeamFromName(team_t_name))
 end
 
 local function bomb_planted_handler(bomber, bomb_time, bomb_planted_obj)
     local x, y, z = getElementPosition(bomb_planted_obj)
+    destroy_bomb_blip()
     bomb_blip = createBlip(x, y, z, 0, 2, 255, 255, 0, 255)
     setElementVisibleToTeam(bomb_blip, getTeamFromName(team_t_name))
 end
 
 local function bomb_picked_up_handler(player)
-    if isElement(bomb_blip) then
-        destroyElement(bomb_blip)
-        bomb_blip = nil
-    end
+    destroy_bomb_blip()
 end
 
 addEventHandler("onPlayerWasted", getRootElement(), player_wasted_handler)
