@@ -89,6 +89,15 @@ local function team_chosen_handler(team_name)
             triggerEvent("onRoundStart", mtacs_element)
         else
             spawn_player_for_team(source, team_name)
+            -- Send remaining time to the client
+            if isTimer(round_timer) then
+                local remaining_ms = getTimerDetails(round_timer)
+                if remaining_ms <= rount_time_warning_time then
+                    triggerClientEvent("onTimerStart", resourceRoot, remaining_ms, 255, 0, 0, 255)
+                else
+                    triggerClientEvent("onTimerStart", resourceRoot, remaining_ms, 255, 255, 255, 255)
+                end
+            end
         end
     end
 end
