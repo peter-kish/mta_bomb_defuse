@@ -4,7 +4,7 @@ local vehicles = {
     {["name"] = "Sultan",          ["ID"] = 560, ["cost"] = 400,  ["team"] = team_t_name},
     {["name"] = "Sanchez",         ["ID"] = 468, ["cost"] = 500,  ["team"] = team_t_name},
     {["name"] = "HPV1000",         ["ID"] = 523, ["cost"] = 500,  ["team"] = team_ct_name},
-    {["name"] = "Maverick",        ["ID"] = 487, ["cost"] = 1200, ["team"] = "all"},
+    {["name"] = "Maverick",        ["ID"] = 487, ["cost"] = 2000, ["team"] = "all"},
 }
 
 function get_vehicle_info(vehicle_name)
