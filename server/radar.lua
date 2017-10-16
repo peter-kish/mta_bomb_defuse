@@ -37,6 +37,10 @@ local function refresh_blips()
         local blip = get_player_blip(player)
         setElementVisibleToTeam(blip, getPlayerTeam(player))
     end
+
+    if isElement(bomb_blip) then
+        setElementVisibleToTeam(bomb_blip, getTeamFromName(team_t_name))
+    end
 end
 
 local function player_wasted_handler()
