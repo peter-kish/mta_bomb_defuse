@@ -17,7 +17,7 @@ local weapons = {
     {["name"] = "Colt 45",         ["ID"] = 22, ["ammo_per_mag"] = 17, ["max_ammo"] = 85,  ["cost"] = 50,  ["slot"] = "secondary_slot", ["team"] = "all"},
     {["name"] = "Deagle",          ["ID"] = 24, ["ammo_per_mag"] = 7,  ["max_ammo"] = 35,  ["cost"] = 75,  ["slot"] = "secondary_slot", ["team"] = "all"},
     {["name"] = "UZI",             ["ID"] = 28, ["ammo_per_mag"] = 50, ["max_ammo"] = 250, ["cost"] = 100, ["slot"] = "secondary_slot", ["team"] = "all"},
-    {["name"] = "Rocket Launcher", ["ID"] = 35, ["ammo_per_mag"] = 1,  ["max_ammo"] = 1,   ["cost"] = 400, ["slot"] = "special_slot",   ["team"] = "all"},
+    {["name"] = "RPG",             ["ID"] = 35, ["ammo_per_mag"] = 1,  ["max_ammo"] = 1,   ["cost"] = 400, ["slot"] = "special_slot",   ["team"] = "all"},
     {["name"] = "Heatseeker",      ["ID"] = 36, ["ammo_per_mag"] = 1,  ["max_ammo"] = 1,   ["cost"] = 800, ["slot"] = "special_slot",   ["team"] = "all"},
     {["name"] = "Granade",         ["ID"] = 16, ["ammo_per_mag"] = 1,  ["max_ammo"] = 10,  ["cost"] = 100, ["slot"] = "special_slot",   ["team"] = "all"},
     {["name"] = "Satchel",         ["ID"] = 39, ["ammo_per_mag"] = 1,  ["max_ammo"] = 10,  ["cost"] = 200, ["slot"] = "special_slot",   ["team"] = "all"},
@@ -31,8 +31,7 @@ function get_weapon_info(weapon_name)
         end
     end
     
-    error("Weapon " .. weapon_name .. " not found!")
-    return nil
+    return false
 end
 
 function get_weapon_info_by_index(index)
@@ -50,8 +49,7 @@ function get_weapon_info_by_id(id)
         end
     end
     
-    error("Weapon with ID " .. id .. " not found!")
-    return nil
+    return false
 end
 
 function get_weapon_count()

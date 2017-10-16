@@ -126,6 +126,63 @@ function set_weapon_properties()
     setWeaponProperty("35", "pro", "weapon_range", 80)
 end
 
+local function list_weapons_command_handler()
+    outputConsole("--- Available Weapons ---", source)
+    for i=1,get_weapon_count() do
+        outputConsole(get_weapon_info_by_index(i).name, source)
+    end
+    outputConsole("-------------------------", source)
+end
+
+local function set_weapon_prop_command_handler(player_source, command_name, weapon_name, property, value)
+    local skill = "pro"
+    local weapon_info = get_weapon_info(weapon_name)
+    
+    if not weapon_info then
+        outputConsole("Weapon " .. weapon_name .. " not found!", source)
+    end
+    
+    if weapon_info.ID == 28 then -- UZI
+        skill = "std"
+    end
+    
+    local old_value = getWeaponProperty(weapon_info.ID, skill, property)
+    if not old_value then
+        outputConsole("Error...", source)
+        return
+    end
+    
+    if setWeaponProperty(weapon_info.ID, skill, property, value) then
+        outputConsole(property .. " for " .. weapon_name .. " changed from " .. old_value .. " to " .. value, source)
+    else
+        outputConsole("Error...", source)
+    end
+end
+
+local function get_weapon_prop_command_handler(player_source, command_name, weapon_name, property)
+    local skill = "pro"
+    local weapon_info = get_weapon_info(weapon_name)
+    
+    if not weapon_info then
+        outputConsole("Weapon " .. weapon_name .. " not found!", source)
+    end
+    
+    if weapon_info.ID == 28 then -- UZI
+        skill = "std"
+    end
+    
+    local value = getWeaponProperty(weapon_info.ID, skill, property)
+    if value then
+        outputConsole(property .. " for " .. weapon_name .. " is " .. value, source)
+    else
+        outputConsole("Error...", source)
+    end
+end
+
 addEventHandler("onPlayerSpawn", getRootElement(), give_knife)
 addEventHandler("onWeaponBuy", getRootElement(), weapon_buy_handler)
 addEventHandler ( "onPlayerJoin", getRootElement(), set_weapon_properties)
+
+addCommandHandler("list_weapons", list_weapons_command_handler, false, true)
+addCommandHandler("set_weapon_property", set_weapon_prop_command_handler, true, true)
+addCommandHandler("get_weapon_property", get_weapon_prop_command_handler, false, true)
