@@ -31,6 +31,14 @@ local function get_player_blip(player)
     return nil
 end
 
+local function refresh_blips()
+    local players = getElementsByType("player")
+    for i,player in ipairs(players) do
+        local blip = get_player_blip(player)
+        setElementVisibleToTeam(blip, getPlayerTeam(player))
+    end
+end
+
 local function player_wasted_handler()
     local blip = get_player_blip(source)
     setElementVisibleTo(blip, getRootElement(), false)
@@ -52,6 +60,9 @@ local function player_spawn_handler()
     elseif player_team_name == team_ct_name then
         setBlipColor(blip, 0, 0, 255, 255)
     end
+    
+    -- Refresh the blips for all players
+    refresh_blips()
 end
 
 local function round_ending_handler()
