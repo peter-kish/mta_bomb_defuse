@@ -12,12 +12,14 @@ local radar_area_t = createRadarArea(math.min(spawn_area_t.x1, spawn_area_t.x2),
     math.abs(spawn_area_t.x1 - spawn_area_t.x2),
     math.abs(spawn_area_t.y1 - spawn_area_t.y2),
     255, 0, 0, 128)
+setElementData(radar_area_t, "name", "spawn_area_t")
     
 local radar_area_ct = createRadarArea(math.min(spawn_area_ct.x1, spawn_area_ct.x2),
     math.min(spawn_area_ct.y1, spawn_area_ct.y2),
     math.abs(spawn_area_ct.x1 - spawn_area_ct.x2),
     math.abs(spawn_area_ct.y1 - spawn_area_ct.y2),
     0, 0, 255, 128)
+setElementData(radar_area_ct, "name", "spawn_area_ct")
 
 local function get_point_from_area(radar_area)
     local position = {}
@@ -97,12 +99,14 @@ local function new_map_handler()
         math.abs(spawn_area_t.x1 - spawn_area_t.x2),
         math.abs(spawn_area_t.y1 - spawn_area_t.y2),
         255, 0, 0, 128)
+    setElementData(radar_area_t, "name", "spawn_area_t")
     
     radar_area_ct = createRadarArea(math.min(spawn_area_ct.x1, spawn_area_ct.x2),
         math.min(spawn_area_ct.y1, spawn_area_ct.y2),
         math.abs(spawn_area_ct.x1 - spawn_area_ct.x2),
         math.abs(spawn_area_ct.y1 - spawn_area_ct.y2),
         0, 0, 255, 128)
+    setElementData(radar_area_ct, "name", "spawn_area_ct")
 end
 
 addEventHandler("onNewMap", mtacs_element, new_map_handler)

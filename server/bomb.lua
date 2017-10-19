@@ -19,11 +19,13 @@ local radar_area_bomb_site_a = createRadarArea(math.min(bomb_site_a.x1, bomb_sit
     math.abs(bomb_site_a.x1 - bomb_site_a.x2),
     math.abs(bomb_site_a.y1 - bomb_site_a.y2),
     0, 255, 0, 128)
+setElementData(radar_area_bomb_site_a, "name", "site_a")
 local radar_area_bomb_site_b = createRadarArea(math.min(bomb_site_b.x1, bomb_site_b.x2),
     math.min(bomb_site_b.y1, bomb_site_b.y2),
     math.abs(bomb_site_b.x1 - bomb_site_b.x2),
     math.abs(bomb_site_b.y1 - bomb_site_b.y2),
     0, 255, 0, 128)
+setElementData(radar_area_bomb_site_b, "name", "site_b")
     
 local bomb_timer = nil
 local bomb_time = 120000
@@ -361,11 +363,13 @@ local function new_map_handler()
         math.abs(bomb_site_a.x1 - bomb_site_a.x2),
         math.abs(bomb_site_a.y1 - bomb_site_a.y2),
         0, 255, 0, 128)
+    setElementData(radar_area_bomb_site_a, "name", "site_a")
     radar_area_bomb_site_b = createRadarArea(math.min(bomb_site_b.x1, bomb_site_b.x2),
         math.min(bomb_site_b.y1, bomb_site_b.y2),
         math.abs(bomb_site_b.x1 - bomb_site_b.x2),
         math.abs(bomb_site_b.y1 - bomb_site_b.y2),
         0, 255, 0, 128)
+    setElementData(radar_area_bomb_site_b, "name", "site_b")
 end
 
 addEventHandler("onRoundStart", mtacs_element, round_start_handler)

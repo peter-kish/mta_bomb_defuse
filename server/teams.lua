@@ -11,3 +11,9 @@ function get_team_alive_count(team)
     end
     return counter
 end
+
+local function team_chosen_handler(team_name)
+    setElementData(source, "team_name", team_name)
+end
+
+addEventHandler("onTeamChosen", getRootElement(), team_chosen_handler)

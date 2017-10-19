@@ -28,4 +28,9 @@
     <script src="client/gui_hud_timer.lua" type="client" />
     <script src="client/gui_hud_progress.lua" type="client" />
     <script src="client/gui_hud_notifications.lua" type="client" />
+    <script src="client/gui_hud_icons.lua" type="client" />
+    
+    <!-- images -->
+    <file src="client/icons/shopping_cart_logo.png" />
+    <file src="client/icons/bomb_logo.png" />
 </meta>
